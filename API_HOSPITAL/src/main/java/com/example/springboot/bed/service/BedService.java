@@ -58,7 +58,7 @@ public class BedService {
         return bedRepository.findFreeBedBySpecialty(cdSpecialty);
     }
 
-    public BedModel findByiInpatient(@NotNull Long cdPacient) {
-        return bedRepository.findByiInpatient(cdPacient);
+    public BedModel findByPatient(@NotNull Long cdPacient) {
+        return bedRepository.findByPatient(cdPacient);
     }
 }

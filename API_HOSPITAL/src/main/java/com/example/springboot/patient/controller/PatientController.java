@@ -86,10 +86,10 @@ public class PatientController {
         HospitalizationsLogModel hospitalization = hospitalizationsLogService.findHospitalizedByPatient(cdPatient);
         hospitalization.setDtDischarge(new Date());
 
-        BedModel bed = bedService.findByiInpatient(cdPatient);
+        BedModel bed = bedService.findByPatient(cdPatient);
         bed.setCdStatus(Status.CLEANING);
+        bed.setCdPatient(null);
         bedService.update(bed);
-
         return ResponseEntity.status(HttpStatus.OK).body(hospitalization);
     }
 }
