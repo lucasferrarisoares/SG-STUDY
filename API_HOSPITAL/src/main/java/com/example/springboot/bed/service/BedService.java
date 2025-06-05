@@ -58,6 +58,10 @@ public class BedService {
         return bedRepository.findFreeBedBySpecialty(cdSpecialty);
     }
 
+    public List<BedModel> findBySpecialty(@NotNull Integer cdSpecialty) {
+        return bedRepository.findBySpecialty(cdSpecialty);
+    }
+
     public BedModel findByPatient(@NotNull Long cdPacient) {
         return bedRepository.findByPatient(cdPacient);
     }
