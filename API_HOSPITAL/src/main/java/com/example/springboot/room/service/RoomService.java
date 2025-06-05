@@ -30,6 +30,11 @@ public class RoomService {
     public RoomModel findById(long id) {
         return roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room não encontrado"));
     }
+
+    public RoomModel findByPatient(long cdPatient) {
+        return roomRepository.findByPatient(cdPatient);
+    }
+
     public List<RoomModel> listAll() {
         return roomRepository.findAll();
     }
