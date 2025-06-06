@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,11 @@ public class PatientController {
     public ResponseEntity<Object> getOnepatient(@PathVariable(value="cdPatient") Long cdPatient) {
         PatientModel patient = patientService.findById(cdPatient);
         return ResponseEntity.status(HttpStatus.OK).body(patient);
+    }
+
+    @GetMapping("/patientsHospitalization/{cdPatient}")
+    public ResponseEntity<Object> getPatientHospitalizationInfo(@PathVariable(value="cdPatient") Long cdPatient) {
+        return ResponseEntity.ok(this.patientService.findPatientHospitalizationInfo(cdPatient));
     }
 
     @PutMapping("/patients/{cdPatient}")
