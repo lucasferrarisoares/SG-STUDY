@@ -9,17 +9,17 @@ import com.example.springboot.hospitalizationslog.DTO.HospitalizationsFinalDTO;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
-import com.example.springboot.hwing.service.HWingService;
 import com.example.springboot.patient.DTO.PatientDTO;
 import com.example.springboot.patient.model.PatientModel;
 import com.example.springboot.patient.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +46,18 @@ public class PatientController {
     public ResponseEntity<Object> getOnepatient(@PathVariable(value="cdPatient") Long cdPatient) {
         PatientModel patient = patientService.findById(cdPatient);
         return ResponseEntity.status(HttpStatus.OK).body(patient);
+    }
+
+    @GetMapping("/historicHospitalization/{cdPatient}")
+    public ResponseEntity<Object> getHistoryHospitalizationInfo(
+            @PathVariable("cdPatient") Long cdPatient,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                patientService.findHistoryHospitalization(cdPatient, pageable));
     }
 
     @PutMapping("/patients/{cdPatient}")
