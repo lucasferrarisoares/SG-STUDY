@@ -2,11 +2,11 @@ package com.example.springboot.hospitalizationslog.service;
 
 import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationActiveDTO;
+import com.example.springboot.bed.repository.BedRepository;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
 import com.example.springboot.hospitalizationslog.projection.HospitalizationProjection;
 import com.example.springboot.hospitalizationslog.repository.HospitalizationsLogRepository;
-import com.example.springboot.hwing.repository.HWingRepository;
 import com.example.springboot.patient.repository.PatientRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +26,7 @@ public class HospitalizationsLogService {
     @Autowired
     private PatientRepository patientRepository;
     @Autowired
-    private HWingRepository hwingRepository;
+    private BedRepository bedRepository;
 
     public HospitalizationsLogModel findById(long id) {
         return hospitalRepository.findById(id).orElseThrow(() -> new RuntimeException("Hospital não encontrado"));
@@ -39,7 +39,7 @@ public class HospitalizationsLogService {
         HospitalizationsLogModel hospitalization = new HospitalizationsLogModel();
         hospitalization.setDtHospitalization(new Date());
         hospitalization.setCdPatient(patientRepository.findById(hospitalizationDTO.cdPatient()).orElseThrow(() -> new RuntimeException("Paciente não encontrado")));
-        hospitalization.setCdHWing(hwingRepository.findById(hospitalizationDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrado")));
+        hospitalization.setCdBed(bedRepository.findById(hospitalizationDTO.cdBed()).orElseThrow(() -> new RuntimeException("Ala não encontrado")));
         hospitalization.setDeSpecialty(hospitalizationDTO.specialty());
         hospitalRepository.save(hospitalization);
         return hospitalization;
