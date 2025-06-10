@@ -1,20 +1,22 @@
 package com.example.springboot.hospitalizationslog.service;
 
+import com.example.springboot.enumerated.specialty.Specialty;
+import com.example.springboot.hospitalizationslog.DTO.HospitalizationActiveDTO;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
+import com.example.springboot.hospitalizationslog.projection.HospitalizationProjection;
 import com.example.springboot.hospitalizationslog.repository.HospitalizationsLogRepository;
 import com.example.springboot.hwing.repository.HWingRepository;
 import com.example.springboot.patient.repository.PatientRepository;
-import com.example.springboot.patient.service.PatientService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class HospitalizationsLogService {
@@ -53,5 +55,13 @@ public class HospitalizationsLogService {
 
     public HospitalizationsLogModel findHospitalizedByPatient(Long cdPatient) {
         return hospitalRepository.findHospitalizedByPatient(cdPatient);
+    }
+
+    public Stream<HospitalizationActiveDTO> listActiveHospitalizations() {
+        List<HospitalizationProjection> list = hospitalRepository.listActiveHospitalizations();
+
+        return list.stream().map(projection -> new HospitalizationActiveDTO(
+                projection.getDePatient(), Specialty.fromcdSpecialty(projection.getCdSpecialty()),
+                projection.getDtHospitalization(), projection.getNuHospitalization()));
     }
 }
