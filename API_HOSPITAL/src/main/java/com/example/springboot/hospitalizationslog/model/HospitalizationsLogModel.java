@@ -1,5 +1,6 @@
 package com.example.springboot.hospitalizationslog.model;
 
+import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.specialty.SpecialtyConverter;
 import com.example.springboot.hwing.model.HWingModel;
@@ -23,8 +24,8 @@ public class HospitalizationsLogModel implements Serializable {
     private Long cdHospitalizationsLog;
 
     @ManyToOne()
-    @JoinColumn(name = "CD_HWING")
-    private HWingModel cdHWing;
+    @JoinColumn(name = "CD_BED")
+    private BedModel cdBed;
 
     @ManyToOne()
     @JoinColumn(name = "CD_PATIENTE")
