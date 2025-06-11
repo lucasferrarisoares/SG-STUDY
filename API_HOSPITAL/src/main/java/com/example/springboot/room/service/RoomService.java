@@ -28,25 +28,33 @@ public class RoomService {
     }
 
     public RoomModel findById(long id) {
-        return roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room não encontrado"));
+        return this.roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room não encontrado"));
     }
     public List<RoomModel> listAll() {
-        return roomRepository.findAll();
+        return this.roomRepository.findAll();
     }
 
     public RoomModel save(@RequestBody @Valid RoomDTO roomDTO) {
         RoomModel room = new RoomModel();
         room.setCdStatus(Status.fromcdStatus(roomDTO.cdStatus()));
         room.setDeCodigo(roomDTO.deCodigo());
-        room.setCdHWing(hwingRepository.findById(roomDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrado")));
-        return roomRepository.save(room);
+        room.setCdHWing(this.hwingRepository.findById(roomDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrada")));
+        return this.roomRepository.save(room);
     }
 
     public RoomModel update(@NotNull RoomModel room) {
-        return roomRepository.save(room);
+        return this.roomRepository.save(room);
     }
 
     public void delete(@NotNull RoomModel room) {
-        roomRepository.delete(room);
+        this.roomRepository.delete(room);
+    }
+
+    public void verifyRoomIsFree(Long cdRoom) {
+        if (!(this.roomRepository.verifyRoomIsFree(cdRoom))) {
+            RoomModel room = this.findById(cdRoom);
+            room.setCdStatus(Status.BUSY);
+            this.update(room);
+        }
     }
 }
