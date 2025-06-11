@@ -8,4 +8,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoomRepository extends JpaRepository<RoomModel, Long> {
+    @Query(nativeQuery = true,
+            value = "SELECT EXISTS (     " +
+                    "    SELECT 1      " +
+                    "       FROM CEH_LEITO L     " +
+                    "    JOIN CEH_ROOM R      " +
+                    "       ON L.CD_ROOM = R.CD_ROOM     " +
+                    "    WHERE      " +
+                    "       L.DE_STATUS = 0 " +
+                    "   AND" +
+                    "       R.CD_ROOM = :cdRoom   " +
+                    ")"
+    )
+    Boolean verifyRoomIsFree(@Param("cdRoom") Long cdRoom);
 }
