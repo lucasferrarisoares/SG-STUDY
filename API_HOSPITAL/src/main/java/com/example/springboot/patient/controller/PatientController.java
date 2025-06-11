@@ -64,19 +64,7 @@ public class PatientController {
     @PostMapping("/hospitalizations/{cdPatient}/{cdSpecialty}")
     public ResponseEntity<Object> hospitalizationPacient(@PathVariable(value="cdPatient") Long cdPatient,
                                                          @PathVariable(value="cdSpecialty") int cdSpecialty) {
-        BedModel bed = bedService.findFreeBedBySpecialty(cdSpecialty);
-        if (bed == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existem leitos disponíveis");
-        }
-        bed.setCdPatient(patientService.findById(cdPatient));
-        bed.setCdStatus(Status.BUSY);
-        bedService.update(bed);
-
-        HospitalizationsFinalDTO hospitalizationsFinalDTO = new HospitalizationsFinalDTO(cdPatient, bed.getCdRoom().getCdHWing().getCdHWing(), bed.getCdRoom().getCdRoom(), bed.getCdBed());
-        HospitalizationsLogDTO hospitalizationsLogDTO = new HospitalizationsLogDTO(Specialty.fromcdSpecialty(cdSpecialty), cdPatient, bed.getCdBed());
-
-        hospitalizationsLogService.save(hospitalizationsLogDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsFinalDTO);
+        return patientService.hospitalizationPaciente(cdPatient, cdSpecialty);
     }
 
     @PutMapping("/releasePatient/{cdHospitalization}")

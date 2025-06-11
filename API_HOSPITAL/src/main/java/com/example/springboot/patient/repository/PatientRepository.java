@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PatientRepository extends JpaRepository<PatientModel, Long> {
+
+    @Query (nativeQuery = true,
+    value = "SELECT EXISTS ( " +
+        "SELECT 1 FROM CEH_LEITO WHERE CD_PATIENT = :cdPatient) ")
+    boolean verifyFreeBed(Long cdPatient);
 }
