@@ -57,8 +57,7 @@ public class PatientController {
 
     @DeleteMapping("/patients/{cdPatient}")
     public ResponseEntity<Object> deletepatient(@PathVariable(value="cdPatient") long cdPatient) {
-        PatientModel patient = patientService.findById(cdPatient);
-        patientService.delete(patient);
+        patientService.delete(patientService.findById(cdPatient));
         return ResponseEntity.status(HttpStatus.OK).body("patient deletado com sucesso");
     }
 
