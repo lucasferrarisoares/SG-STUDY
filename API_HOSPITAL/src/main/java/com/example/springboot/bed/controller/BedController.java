@@ -47,6 +47,11 @@ public class BedController {
         return ResponseEntity.status(HttpStatus.OK).body(bedService.update(bed));
     }
 
+    @PutMapping("/finishCleaning/{cdBed}")
+    public ResponseEntity<Object> finishCleaning(@PathVariable(value="cdBed") Long cdBed) {
+        return ResponseEntity.status(HttpStatus.OK).body(bedService.finishCleaning(cdBed));
+    }
+
     @DeleteMapping("/beds/{cdBed}")
     public ResponseEntity<Object> deleteBed(@PathVariable(value="cdBed") long cdBed) {
         BedModel bed = bedService.findById(cdBed);
