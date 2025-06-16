@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "es5",
-    "module": "esnext",
-    "strict": true,
-    "esModuleInterop": true,
-    "outDir": "./dist",
-    "sourceMap": true
+    "module": "none",
+    "allowJs": true,
+    "noEmitOnError": false,
+    "strict": false,
+    "types": ["angular", "angular-route"]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

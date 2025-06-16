@@ -1,0 +1,16 @@
+<div class="hospital-container">
+    <h2>Cadastro de Hospital</h2>
+    <form ng-submit="adicionarHospital()">
+        <label for="nomeHospital">Nome do Hospital:</label>
+        <input type="text" id="nomeHospital" ng-model="novoHospital" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <hr>
+
+    <h3>Hospitais Cadastrados</h3>
+    <button ng-click="listarHospitais()">Listar Hospitais</button>
+    <ul>
+        <li ng-repeat="hospital in hospitais">{{ hospital }}</li>
+    </ul>
+</div>

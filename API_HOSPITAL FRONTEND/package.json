@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-  "build": "webpack",
-  "start": "webpack --watch"
-},
+    "build": "webpack",
+    "start": "webpack --watch"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

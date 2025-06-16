@@ -1,0 +1,36 @@
+.hospital-container button {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.hospital-container button:hover {
+    background-color: #1565c0;
+}
+
+.hospital-container hr {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.hospital-container ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+}
+
+.hospital-container li {
+    background: #f4f8fb;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #333;
+    font-size: 1em;
+}
