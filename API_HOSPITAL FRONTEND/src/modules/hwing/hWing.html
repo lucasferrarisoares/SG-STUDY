@@ -1,0 +1,27 @@
+<div class="hwing-container">
+    <h2>Cadastro de Alas</h2>
+    <form ng-submit="addHwing()">
+        <label for="specialty">Especialidade:</label>
+        <select id="specialty" ng-model="newHwing.specialty" required>
+            <option value="" disabled selected>Selecione</option>
+            <option ng-repeat="esp in specialty" value="{{esp}}">{{esp}}</option>
+        </select>
+
+        <label for="hospital">Nome do Hospital:</label>
+        <select id="hospital" ng-model="newHwing.hospital" required>
+            <option value="" disabled selected>Selecione</option>
+            <option ng-repeat="hosp in hospitals" value="{{hosp}}">{{hosp}}</option>
+        </select>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <hr>
+
+    <h3>Alas Cadastradas</h3>
+    <ul>
+        <li ng-repeat="wing in wings">
+            Hospital: {{ wing.hospital }} | Especialidade: {{ wing.specialty }}
+        </li>
+    </ul>
+</div>

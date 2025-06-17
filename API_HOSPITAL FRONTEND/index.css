@@ -10,6 +10,12 @@ header {
     text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
+header img.logo {
+    width: 100px; 
+    height: auto;
+    position: absolute; 
+    left: 1rem; 
+}
 nav {
     background: #1565c0;
     display: flex;

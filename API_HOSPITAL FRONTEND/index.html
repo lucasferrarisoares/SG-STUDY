@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Hospital SG - Home</title>
-    <link rel="stylesheet" href="src/modules/Hospital/hospital.css">
+    <link rel="stylesheet" href="src/modules/hospital/Hospital.css">
+    <link rel="stylesheet" href="src/modules/patient/Patient.css">
+    <link rel="stylesheet" href="src/modules/hwing/hWing.css">
     <link rel="stylesheet" href="index.css">
 </head>
-<body>
+<body  ng-controller="HomeController">
     <header>
-        <h1>Hospital SG</h1>
+        <img src="image/traços finos.png" alt="Logo" class="logo">
+        <h1 style="cursor:pointer;" ng-click="goHome()">Hospital SG</h1>
         <p>Bem-vindo ao sistema de gestão hospitalar</p>
     </header>
     <nav>
+        <a href="#!/hospital">Hospital</a>
+        <a href="#!/hwing">Alas</a>
         <a href="#!/quartos">Quartos</a>
         <a href="#!/camas">Camas</a>
-        <a href="#!/pacientes">Pacientes</a>
-        <a href="#!/hospital">Hospital</a>
+        <a href="#!/patient">Pacientes</a>
     </nav>
     <main ng-view></main>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
-    <script src="dist/app.js"></script> <!-- ou o caminho do seu JS compilado -->
+    <script src="dist/bundle.js"></script>
 </body>
 </html>
