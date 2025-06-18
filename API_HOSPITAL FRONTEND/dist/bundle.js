@@ -36641,6 +36641,37 @@ function HomeController($scope, $location) {
 
 /***/ }),
 
+/***/ "./src/modules/bed/BedController.ts":
+/*!******************************************!*\
+  !*** ./src/modules/bed/BedController.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = BedController;
+function BedController($scope, $location) {
+    $scope.beds = [];
+    $scope.newBed = { quarto: '', especialidade: '' };
+    $scope.filtroEspecialidade = '';
+    $scope.addBed = function () {
+        if ($scope.newBed.quarto && $scope.newBed.especialidade) {
+            $scope.beds.push({
+                quarto: $scope.newBed.quarto,
+                especialidade: $scope.newBed.especialidade
+            });
+            $scope.newBed = { quarto: '', especialidade: '' };
+        }
+    };
+    $scope.verHistorico = function (bed) {
+        $location.path('/bed-log/' + encodeURIComponent(bed.quarto));
+    };
+}
+
+
+/***/ }),
+
 /***/ "./src/modules/hospital/HospitalController.ts":
 /*!****************************************************!*\
   !*** ./src/modules/hospital/HospitalController.ts ***!
@@ -36722,6 +36753,61 @@ function PatientController($scope) {
 }
 
 
+/***/ }),
+
+/***/ "./src/modules/room/RoomController.ts":
+/*!********************************************!*\
+  !*** ./src/modules/room/RoomController.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = RoomController;
+function RoomController($scope) {
+    $scope.rooms = [];
+    $scope.newRoom = { ala: '', leitos: 1, ocupados: 0, especialidade: '' };
+    $scope.addRoom = function () {
+        if ($scope.newRoom.ala && $scope.newRoom.leitos > 0 && $scope.newRoom.especialidade) {
+            $scope.rooms.push({
+                ala: $scope.newRoom.ala,
+                leitos: $scope.newRoom.leitos,
+                ocupados: 0, // Começa vazio
+                especialidade: $scope.newRoom.especialidade
+            });
+            $scope.newRoom = { ala: '', leitos: 1, ocupados: 0, especialidade: '' };
+        }
+    };
+    $scope.ocuparLeito = function (room) {
+        if (room.ocupados < room.leitos) {
+            room.ocupados++;
+        }
+    };
+    $scope.liberarLeito = function (room) {
+        if (room.ocupados > 0) {
+            room.ocupados--;
+        }
+    };
+    $scope.getFreeRooms = function () {
+        return $scope.rooms.filter(function (r) { return r.leitos > r.ocupados; });
+    };
+    $scope.getOccupiedRooms = function () {
+        return $scope.rooms.filter(function (r) { return r.ocupados > 0; });
+    };
+    $scope.occupiedBySpecialty = {};
+    $scope.$watch('rooms', function (rooms) {
+        var result = {};
+        rooms.forEach(function (r) {
+            if (r.ocupados > 0) {
+                result[r.especialidade] = (result[r.especialidade] || 0) + 1;
+            }
+        });
+        $scope.occupiedBySpecialty = result;
+    }, true);
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -36765,13 +36851,15 @@ var angular = __webpack_require__(/*! angular */ "./node_modules/angular/index.j
 var HospitalController_1 = __webpack_require__(/*! ./modules/hospital/HospitalController */ "./src/modules/hospital/HospitalController.ts");
 var PatientController_1 = __webpack_require__(/*! ./modules/patient/PatientController */ "./src/modules/patient/PatientController.ts");
 var hWingController_1 = __webpack_require__(/*! ./modules/hwing/hWingController */ "./src/modules/hwing/hWingController.ts");
-// import BedController from './modules/bed/BedController';
+var BedController_1 = __webpack_require__(/*! ./modules/bed/BedController */ "./src/modules/bed/BedController.ts");
+var RoomController_1 = __webpack_require__(/*! ./modules/room/RoomController */ "./src/modules/room/RoomController.ts");
 var HomeController_1 = __webpack_require__(/*! ./home/HomeController */ "./src/home/HomeController.ts");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('PatientController', PatientController_1.default);
 app.controller('hWingController', hWingController_1.default);
-// app.controller('BedController', BedController);
+app.controller('BedController', BedController_1.default);
+app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
 app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -36794,6 +36882,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             .when('/bed', {
             templateUrl: 'src/modules/bed/Bed.html',
             controller: 'BedController'
+        })
+            .when('/room', {
+            templateUrl: 'src/modules/room/Room.html',
+            controller: 'RoomController'
         })
             .otherwise({
             redirectTo: '/home'

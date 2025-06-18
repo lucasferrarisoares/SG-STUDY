@@ -1,4 +1,4 @@
-.bed-container {
+.room-container {
     max-width: 500px;
     margin: 40px auto;
     background: #fff;
@@ -8,25 +8,25 @@
     text-align: center;
 }
 
-.bed-container h2, .bed-container h3 {
+.room-container h2, .room-container h3, .room-container h4 {
     color: #1976d2;
     margin-top: 0;
 }
 
-.bed-container form {
+.room-container form {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-bottom: 20px;
 }
 
-.bed-container label {
+.room-container label {
     font-weight: bold;
     margin-bottom: 4px;
     text-align: left;
 }
 
-.bed-container input {
+.room-container input {
     padding: 8px;
     border: 1px solid #b0bec5;
     border-radius: 4px;
@@ -34,42 +34,39 @@
     margin-bottom: 10px;
 }
 
-.bed-container button {
+.room-container button {
     background-color: #1976d2;
     color: #fff;
     border: none;
     border-radius: 4px;
-    padding: 8px 16px;
+    padding: 10px 18px;
     font-size: 1em;
     cursor: pointer;
     transition: background 0.2s;
-    margin-left: 8px;
+    margin-top: 8px;
 }
 
-.bed-container button:hover {
+.room-container button:hover {
     background-color: #1565c0;
 }
 
-.bed-container hr {
+.room-container hr {
     margin: 24px 0;
     border: none;
     border-top: 1px solid #e0e0e0;
 }
 
-.bed-container ul {
+.room-container ul {
     list-style: none;
     padding: 0;
     margin-top: 16px;
 }
 
-.bed-container li {
+.room-container li {
     background: #f4f8fb;
     margin-bottom: 8px;
     padding: 8px 12px;
     border-radius: 4px;
     color: #333;
     font-size: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }

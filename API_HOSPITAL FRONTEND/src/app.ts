@@ -4,7 +4,8 @@ import * as angular from 'angular';
 import HospitalController from './modules/hospital/HospitalController';
 import PatientController from './modules/patient/PatientController';
 import HwingController from './modules/hwing/hWingController';
-// import BedController from './modules/bed/BedController';
+import BedController from './modules/bed/BedController';
+import RoomController from './modules/room/RoomController';
 import HomeController from './home/HomeController';
 
 const app = angular.module('meuApp', ['ngRoute']);
@@ -12,7 +13,8 @@ const app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController);
 app.controller('PatientController', PatientController);
 app.controller('hWingController', HwingController);
-// app.controller('BedController', BedController);
+app.controller('BedController', BedController);
+app.controller('RoomController', RoomController);
 app.controller('HomeController', HomeController);
 
 app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) {
@@ -37,9 +39,13 @@ app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) 
       templateUrl: 'src/modules/bed/Bed.html',
       controller: 'BedController'
     })
+    .when('/room', {
+      templateUrl: 'src/modules/room/Room.html',
+      controller: 'RoomController'
+    })
     .otherwise({
       redirectTo: '/home'
     });
-}
+  }
 ]);
 

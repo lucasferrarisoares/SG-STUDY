@@ -4,13 +4,15 @@ var angular = require("angular");
 var HospitalController_1 = require("./modules/hospital/HospitalController");
 var PatientController_1 = require("./modules/patient/PatientController");
 var hWingController_1 = require("./modules/hwing/hWingController");
-// import BedController from './modules/bed/BedController';
+var BedController_1 = require("./modules/bed/BedController");
+var RoomController_1 = require("./modules/room/RoomController");
 var HomeController_1 = require("./home/HomeController");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('PatientController', PatientController_1.default);
 app.controller('hWingController', hWingController_1.default);
-// app.controller('BedController', BedController);
+app.controller('BedController', BedController_1.default);
+app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
 app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -33,6 +35,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             .when('/bed', {
             templateUrl: 'src/modules/bed/Bed.html',
             controller: 'BedController'
+        })
+            .when('/room', {
+            templateUrl: 'src/modules/room/Room.html',
+            controller: 'RoomController'
         })
             .otherwise({
             redirectTo: '/home'
