@@ -1,0 +1,11 @@
+<div class="hospital-edit-container" ng-if="hospital">
+    <h2>Editar Hospital</h2>
+    <form ng-submit="salvarEdicao()">
+        <label>ID:</label>
+        <input type="text" ng-model="hospital.cdHospital" readonly><br>
+        <label>Nome:</label>
+        <input type="text" ng-model="hospital.deHospital" required><br>
+        <button type="submit">Salvar</button>
+        <button type="button" ng-click="voltar()">Cancelar</button>
+    </form>
+</div>

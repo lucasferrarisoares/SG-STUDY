@@ -1,9 +1,11 @@
 import * as angular from 'angular';
 
 
-import HospitalController from './modules/hospital/HospitalController';
+import HospitalListController from './modules/hospital/List/HospitalListController';
+import HospitalController from './modules/hospital/Edit/HospitalController';
 import PatientController from './modules/patient/PatientController';
-import HwingController from './modules/hwing/hWingController';
+import hWingListController from './modules/hwing/List/hWingListController';
+import hWingController from './modules/hwing/Edit/hWingController';
 import BedController from './modules/bed/BedController';
 import RoomController from './modules/room/RoomController';
 import HomeController from './home/HomeController';
@@ -12,15 +14,21 @@ const app = angular.module('meuApp', ['ngRoute']);
 
 app.controller('HospitalController', HospitalController);
 app.controller('PatientController', PatientController);
-app.controller('hWingController', HwingController);
+app.controller('hWingListController', hWingListController);
+app.controller('hWingController', hWingController); 
 app.controller('BedController', BedController);
 app.controller('RoomController', RoomController);
 app.controller('HomeController', HomeController);
+app.controller('HospitalListController', HospitalListController);
 
 app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) {
   $routeProvider
     .when('/hospital', {
-      templateUrl: 'src/modules/hospital/Hospital.html',
+      templateUrl: 'src/modules/hospital/List/HospitalList.html',
+      controller: 'HospitalListController'
+    })
+    .when('/hospitais/:id/editar', {
+      templateUrl: 'src/modules/hospital/Edit/Hospital.html',
       controller: 'HospitalController'
     })
     .when('/home', {
@@ -32,7 +40,11 @@ app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) 
       controller: 'PatientController'
     })
     .when('/hwing', {
-      templateUrl: 'src/modules/hwing/hWing.html',
+      templateUrl: 'src/modules/hwing/List/hWingList.html',
+      controller: 'hWingListController'
+    })
+    .when('/hwing/:id/editar', {
+      templateUrl: 'src/modules/hwing/Edit/hWing.html',
       controller: 'hWingController'
     })
     .when('/bed', {

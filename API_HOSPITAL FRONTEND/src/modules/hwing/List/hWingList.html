@@ -1,0 +1,42 @@
+<div class="hwing-container">
+    <h2>Cadastro de Alas</h2>
+    <form ng-submit="addhWing()">
+        <label for="specialty">Especialidade:</label>
+            <select id="specialty" ng-model="newHwing.cdSpecialty" required>
+                <option value="" disabled selected>Selecione</option>
+                <option ng-repeat="esp in specialties" value="{{esp.cdSpecialty}}">{{esp.deName}}</option>
+            </select>
+
+        <label for="hospital">Hospitais:</label>
+            <select id="hospital" ng-model="newHwing.cdHospital" required>
+                <option value="" disabled selected>Selecione</option>
+                <option ng-repeat="hosp in hospitals" value="{{hosp.cdHospital}}">{{hosp.deHospital}}</option>
+            </select>
+
+        <div class="hwing-row">
+            <div class="hwing-col">
+                <label for="nuRoom">Quantidade de Quartos:</label>
+                <input type="number" id="nuRoom" ng-model="newHwing.nuRoom" required>
+            </div>
+            <div class="hwing-col">
+                <label for="nuBed">Quantidade de Camas:</label>
+                <input type="number" id="nuBed" ng-model="newHwing.nuBed" required>
+            </div>
+        </div>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <hr>
+
+    <h3>Alas Cadastradas</h3>
+    <ul>
+        <li ng-repeat="wing in wings">
+            Hospital: {{ wing.cdHospital.deHospital }} | Especialidade: {{ wing.deSpecialty }}
+            <div>
+            <button ng-click="editarhWing(wing.cdHWing)">Editar</button>
+            <button ng-click="removerhWing(wing.cdHWing)">Remover</button>
+            </div>
+        </li>
+    </ul>
+</div>

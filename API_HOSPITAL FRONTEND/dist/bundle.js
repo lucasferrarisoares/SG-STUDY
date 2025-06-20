@@ -36672,57 +36672,193 @@ function BedController($scope, $location) {
 
 /***/ }),
 
-/***/ "./src/modules/hospital/HospitalController.ts":
-/*!****************************************************!*\
-  !*** ./src/modules/hospital/HospitalController.ts ***!
-  \****************************************************/
+/***/ "./src/modules/hospital/Edit/HospitalController.ts":
+/*!*********************************************************!*\
+  !*** ./src/modules/hospital/Edit/HospitalController.ts ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = HospitalController;
-function HospitalController($scope) {
-    $scope.hospitais = [];
-    $scope.newHospital = '';
-    $scope.addHospital = function () {
-        if ($scope.newHospital) {
-            $scope.hospitais.push($scope.newHospital);
-            $scope.newHospital = '';
-        }
+function HospitalController($scope, $http, $routeParams, $location) {
+    $scope.hospital = null;
+    // Buscar hospital pelo ID
+    $http.get('http://localhost:8080/hospitals/' + $routeParams.id)
+        .then(function (response) {
+        $scope.hospital = response.data;
+    });
+    // Salvar edição
+    $scope.salvarEdicao = function () {
+        $http.put('http://localhost:8080/hospitals/' + $scope.hospital.cdHospital, { deHospital: $scope.hospital.deHospital })
+            .then(function () {
+            $location.path('/hospital');
+        }, function () {
+            alert('Erro ao editar hospital!');
+        });
     };
-    $scope.listHospitais = function () {
-        // Aqui você pode implementar busca em uma API futuramente
+    // Voltar sem salvar
+    $scope.voltar = function () {
+        $location.path('/hospital');
     };
 }
 
 
 /***/ }),
 
-/***/ "./src/modules/hwing/hWingController.ts":
-/*!**********************************************!*\
-  !*** ./src/modules/hwing/hWingController.ts ***!
-  \**********************************************/
+/***/ "./src/modules/hospital/List/HospitalListController.ts":
+/*!*************************************************************!*\
+  !*** ./src/modules/hospital/List/HospitalListController.ts ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = HospitalListController;
+function HospitalListController($scope, $http, $location) {
+    $scope.hospitais = [];
+    $scope.newHospital = { deHospital: '' };
+    $scope.listHospitais = function () {
+        $http.get('http://localhost:8080/hospitals')
+            .then(function (response) {
+            $scope.hospitais = response.data;
+        });
+    };
+    $scope.addHospital = function () {
+        if ($scope.newHospital.deHospital) {
+            $http.post('http://localhost:8080/hospitals', $scope.newHospital)
+                .then(function () {
+                $scope.newHospital = { deHospital: '' };
+                $scope.listHospitais();
+            });
+        }
+    };
+    $scope.removerHospital = function (cdHospital) {
+        $http.delete('http://localhost:8080/hospitals/' + cdHospital)
+            .then(function () {
+            $scope.listHospitais();
+        });
+    };
+    $scope.editarHospital = function (cdHospital) {
+        $location.path('/hospitais/' + cdHospital + '/editar');
+    };
+    $scope.listHospitais();
+}
+
+
+/***/ }),
+
+/***/ "./src/modules/hwing/Edit/hWingController.ts":
+/*!***************************************************!*\
+  !*** ./src/modules/hwing/Edit/hWingController.ts ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = hWingController;
-function hWingController($scope) {
-    $scope.specialty = ['Geral', 'Pediatria', 'Ortopedia', 'Cardiologia'];
-    $scope.hospitals = ['Hospital São Lucas', 'Hospital Calica', 'Hospital SG'];
+function hWingController($scope, $http, $routeParams, $location) {
+    $scope.hwing = null;
+    $scope.specialties = [];
+    // Buscar especialidades
+    $http.get('http://localhost:8080/specialties')
+        .then(function (response) {
+        $scope.specialties = response.data;
+    });
+    // Buscar ala pelo ID
+    $http.get('http://localhost:8080/hwings/' + $routeParams.id)
+        .then(function (response) {
+        $scope.hwing = response.data;
+        // Se vier como objeto, pode ser necessário ajustar para o valor do tablist:
+        // $scope.hwing.cdSpecialty = $scope.hwing.deSpecialty.cdSpecialty;
+    });
+    // Salvar edição
+    $scope.salvarEdicao = function () {
+        // Envie o cdSpecialty selecionado (ajuste conforme seu DTO)
+        var dto = {
+            cdSpecialty: $scope.hwing.cdSpecialty,
+            cdHospital: $scope.hwing.cdHospital.cdHospital || $scope.hwing.cdHospital, // ajuste conforme backend
+            nuRoom: $scope.hwing.nuRoom,
+            nuBed: $scope.hwing.nuBed
+        };
+        $http.put('http://localhost:8080/hwings/' + $scope.hwing.cdHWing, dto)
+            .then(function () {
+            $location.path('/hwings');
+        }, function () {
+            alert('Erro ao editar ala!');
+        });
+    };
+    // Voltar sem salvar
+    $scope.voltar = function () {
+        $location.path('/hwings');
+    };
+    // Selecionar especialidade pelo tablist
+    $scope.selecionarEspecialidade = function (cdSpecialty) {
+        $scope.hwing.cdSpecialty = cdSpecialty;
+    };
+}
+
+
+/***/ }),
+
+/***/ "./src/modules/hwing/List/hWingListController.ts":
+/*!*******************************************************!*\
+  !*** ./src/modules/hwing/List/hWingListController.ts ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = hWingController;
+function hWingController($scope, $http, $location) {
+    $scope.hospitals = [];
     $scope.wings = [];
     $scope.newHwing = {};
-    $scope.addHwing = function () {
-        if ($scope.newHwing.specialty && $scope.newHwing.hospital) {
-            $scope.wings.push({
-                specialty: $scope.newHwing.specialty,
-                hospital: $scope.newHwing.hospital
+    $scope.specialties = [];
+    $scope.listhWing = function () {
+        $http.get('http://localhost:8080/hwings')
+            .then(function (response) {
+            $scope.wings = response.data;
+        });
+    };
+    $scope.addhWing = function () {
+        if ($scope.newHwing.cdSpecialty && $scope.newHwing.cdHospital) {
+            $http.post('http://localhost:8080/hwings', $scope.newHwing)
+                .then(function () {
+                $scope.newHwing = { cdSpecialty: '', cdHospital: '' };
+                $scope.listhWing();
             });
-            $scope.newHwing = {};
         }
     };
+    $scope.removerhWing = function (cdHWing) {
+        $http.delete('http://localhost:8080/hwings/' + cdHWing)
+            .then(function () {
+            $scope.listhWing();
+        });
+    };
+    $scope.editarhWing = function (cdHWing) {
+        $location.path('/hwing/' + cdHWing + '/editar');
+    };
+    $scope.listHospitals = function () {
+        $http.get('http://localhost:8080/hospitals')
+            .then(function (response) {
+            $scope.hospitals = response.data;
+        });
+    };
+    $scope.listSpecialties = function () {
+        $http.get('http://localhost:8080/specialties')
+            .then(function (response) {
+            $scope.specialties = response.data;
+        });
+    };
+    // Inicialização
+    $scope.listSpecialties();
+    $scope.listHospitals();
+    $scope.listhWing();
 }
 
 
@@ -36848,23 +36984,31 @@ var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var angular = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
-var HospitalController_1 = __webpack_require__(/*! ./modules/hospital/HospitalController */ "./src/modules/hospital/HospitalController.ts");
+var HospitalListController_1 = __webpack_require__(/*! ./modules/hospital/List/HospitalListController */ "./src/modules/hospital/List/HospitalListController.ts");
+var HospitalController_1 = __webpack_require__(/*! ./modules/hospital/Edit/HospitalController */ "./src/modules/hospital/Edit/HospitalController.ts");
 var PatientController_1 = __webpack_require__(/*! ./modules/patient/PatientController */ "./src/modules/patient/PatientController.ts");
-var hWingController_1 = __webpack_require__(/*! ./modules/hwing/hWingController */ "./src/modules/hwing/hWingController.ts");
+var hWingListController_1 = __webpack_require__(/*! ./modules/hwing/List/hWingListController */ "./src/modules/hwing/List/hWingListController.ts");
+var hWingController_1 = __webpack_require__(/*! ./modules/hwing/Edit/hWingController */ "./src/modules/hwing/Edit/hWingController.ts");
 var BedController_1 = __webpack_require__(/*! ./modules/bed/BedController */ "./src/modules/bed/BedController.ts");
 var RoomController_1 = __webpack_require__(/*! ./modules/room/RoomController */ "./src/modules/room/RoomController.ts");
 var HomeController_1 = __webpack_require__(/*! ./home/HomeController */ "./src/home/HomeController.ts");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('PatientController', PatientController_1.default);
+app.controller('hWingListController', hWingListController_1.default);
 app.controller('hWingController', hWingController_1.default);
 app.controller('BedController', BedController_1.default);
 app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
+app.controller('HospitalListController', HospitalListController_1.default);
 app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/hospital', {
-            templateUrl: 'src/modules/hospital/Hospital.html',
+            templateUrl: 'src/modules/hospital/List/HospitalList.html',
+            controller: 'HospitalListController'
+        })
+            .when('/hospitais/:id/editar', {
+            templateUrl: 'src/modules/hospital/Edit/Hospital.html',
             controller: 'HospitalController'
         })
             .when('/home', {
@@ -36876,7 +37020,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'PatientController'
         })
             .when('/hwing', {
-            templateUrl: 'src/modules/hwing/hWing.html',
+            templateUrl: 'src/modules/hwing/List/hWingList.html',
+            controller: 'hWingListController'
+        })
+            .when('/hwing/:id/editar', {
+            templateUrl: 'src/modules/hwing/Edit/hWing.html',
             controller: 'hWingController'
         })
             .when('/bed', {
