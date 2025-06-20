@@ -6,13 +6,11 @@
                 <option value="" disabled selected>Selecione</option>
                 <option ng-repeat="esp in specialties" value="{{esp.cdSpecialty}}">{{esp.deName}}</option>
             </select>
-
         <label for="hospital">Hospitais:</label>
             <select id="hospital" ng-model="newHwing.cdHospital" required>
                 <option value="" disabled selected>Selecione</option>
                 <option ng-repeat="hosp in hospitals" value="{{hosp.cdHospital}}">{{hosp.deHospital}}</option>
             </select>
-
         <div class="hwing-row">
             <div class="hwing-col">
                 <label for="nuRoom">Quantidade de Quartos:</label>
