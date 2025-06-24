@@ -4,12 +4,10 @@ import com.example.springboot.bed.DTO.BedDTO;
 import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.bed.repository.BedRepository;
 import com.example.springboot.enumerated.status.Status;
-import com.example.springboot.hwing.model.HWingModel;
 import com.example.springboot.patient.repository.PatientRepository;
 import com.example.springboot.room.repository.RoomRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,5 +62,12 @@ public class BedService {
 
     public Object findHospitalizationLogByBed(Long cdBed) {
         return bedRepository.findHospitalizationLogByBed(cdBed);
+    }
+
+    public Object finishCleaning(Long cdBed) {
+        BedModel bed = this.findById(cdBed);
+        bed.setCdStatus(Status.FREE);
+        //FUNÇÃO PARA COLOCAR O QUARTO COMO LIVRE.
+        return this.update(bed);
     }
 }
