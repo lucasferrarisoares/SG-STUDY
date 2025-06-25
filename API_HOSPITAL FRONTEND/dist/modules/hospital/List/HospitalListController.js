@@ -18,13 +18,13 @@ function HospitalListController($scope, $http, $location) {
             });
         }
     };
-    $scope.removerHospital = function (cdHospital) {
+    $scope.removeHospital = function (cdHospital) {
         $http.delete('http://localhost:8080/hospitals/' + cdHospital)
             .then(function () {
             $scope.listHospitais();
         });
     };
-    $scope.editarHospital = function (cdHospital) {
+    $scope.editHospital = function (cdHospital) {
         $location.path('/hospitais/' + cdHospital + '/editar');
     };
     $scope.listHospitais();

@@ -20,13 +20,13 @@ function hWingController($scope, $http, $location) {
             });
         }
     };
-    $scope.removerhWing = function (cdHWing) {
+    $scope.removehWing = function (cdHWing) {
         $http.delete('http://localhost:8080/hwings/' + cdHWing)
             .then(function () {
             $scope.listhWing();
         });
     };
-    $scope.editarhWing = function (cdHWing) {
+    $scope.edithWing = function (cdHWing) {
         $location.path('/hwing/' + cdHWing + '/editar');
     };
     $scope.listHospitals = function () {

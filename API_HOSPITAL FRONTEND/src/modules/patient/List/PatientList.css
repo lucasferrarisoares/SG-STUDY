@@ -1,3 +1,33 @@
+.patient-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.patient-container h2, .patient-container h3 {
+    color: #1976d2;
+    margin-top: 0;
+}
+
+.patient-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.patient-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
 .patient-container button {
     background-color: #1976d2;
     color: #fff;
@@ -8,6 +38,7 @@
     cursor: pointer;
     transition: background 0.2s;
     margin-top: 8px;
+    margin-left: 6px;
 }
 
 .patient-container button:hover {
@@ -33,4 +64,23 @@
     border-radius: 4px;
     color: #333;
     font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.patient-container li span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 600px) {
+    .patient-container {
+        padding: 16px 4px;
+    }
+    .patient-container li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

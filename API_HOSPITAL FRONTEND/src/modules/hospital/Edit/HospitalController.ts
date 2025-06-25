@@ -1,14 +1,12 @@
 export default function HospitalController($scope: any, $http: any, $routeParams: any, $location: any) {
   $scope.hospital = null;
 
-  // Buscar hospital pelo ID
   $http.get('http://localhost:8080/hospitals/' + $routeParams.id)
     .then(function(response: any) {
       $scope.hospital = response.data;
     });
 
-  // Salvar edição
-  $scope.salvarEdicao = function() {
+  $scope.saveEdicao = function() {
     $http.put('http://localhost:8080/hospitals/' + $scope.hospital.cdHospital, 
       { deHospital: $scope.hospital.deHospital })
       .then(function() {
@@ -18,7 +16,6 @@ export default function HospitalController($scope: any, $http: any, $routeParams
       });
   };
 
-  // Voltar sem salvar
   $scope.voltar = function() {
     $location.path('/hospital');
   };

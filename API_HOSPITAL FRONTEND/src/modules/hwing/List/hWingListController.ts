@@ -21,14 +21,14 @@ export default function hWingController($scope: any, $http: any, $location: any)
   }
   };
 
-  $scope.removerhWing = function(cdHWing: number) {
+  $scope.removehWing = function(cdHWing: number) {
     $http.delete('http://localhost:8080/hwings/' + cdHWing)
       .then(function() {
         $scope.listhWing();
       });
   };
 
-  $scope.editarhWing = function(cdHWing: number) {
+  $scope.edithWing = function(cdHWing: number) {
     $location.path('/hwing/' + cdHWing + '/editar');
   };
 

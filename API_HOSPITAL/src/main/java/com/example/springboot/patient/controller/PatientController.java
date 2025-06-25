@@ -7,7 +7,6 @@ import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsFinalDTO;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
-import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
 import com.example.springboot.patient.DTO.PatientDTO;
 import com.example.springboot.patient.model.PatientModel;
