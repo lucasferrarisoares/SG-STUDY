@@ -1,6 +1,11 @@
 package com.example.springboot.patient.service;
 
 import com.example.springboot.patient.projection.PatientHistoryProjection;
+import com.example.springboot.bed.model.BedModel;
+import com.example.springboot.bed.service.BedService;
+import com.example.springboot.enumerated.status.Status;
+import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
+import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
 import com.example.springboot.patient.DTO.PatientDTO;
 import com.example.springboot.patient.DTO.PatientHistoryDTO;
 import com.example.springboot.patient.model.PatientModel;
@@ -13,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +27,10 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private BedService bedService;
+    @Autowired
+    private HospitalizationsLogService hospitalizationsLogService;
 
     public PatientModel findById(long id) {
         return patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Patient não encontrado"));
@@ -41,6 +52,17 @@ public class PatientService {
 
     public void delete(@NotNull PatientModel patient) {
         patientRepository.delete(patient);
+    }
+
+    public Object releasePatient(Long cdHospitalization) {
+        HospitalizationsLogModel hospitalization = hospitalizationsLogService.findHospitalizedByPatient(cdHospitalization);
+        hospitalization.setDtDischarge(new Date());
+
+        BedModel bed = bedService.findById(hospitalization.getCdBed().getCdBed());
+        bed.setCdStatus(Status.CLEANING);
+        bed.setCdPatient(null);
+        bedService.update(bed);
+        return this.hospitalizationsLogService.update(hospitalization);
     }
 
 

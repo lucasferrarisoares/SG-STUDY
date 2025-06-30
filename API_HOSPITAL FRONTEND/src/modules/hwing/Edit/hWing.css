@@ -1,0 +1,131 @@
+.hwing-edit-container {
+    max-width: 420px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.hwing-edit-container h2 {
+    color: #1976d2;
+    margin-top: 0;
+}
+
+.hwing-edit-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.hwing-edit-container label {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.hwing-edit-container input[type="text"],
+.hwing-edit-container input[type="number"] {
+    padding: 8px;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    background: #f4f8fb;
+    transition: border 0.2s;
+}
+
+.hwing-edit-container input[type="text"]:focus,
+.hwing-edit-container input[type="number"]:focus {
+    border: 1.5px solid #1976d2;
+    background: #fff;
+    outline: none;
+}
+
+.tablist {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 20px 0;
+    justify-content: center;
+}
+
+.tablist button[role="tab"] {
+    background: #e3eafc;
+    color: #1976d2;
+    border: none;
+    border-radius: 4px 4px 0 0;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+    outline: none;
+}
+
+.tablist button[role="tab"].active,
+.tablist button[role="tab"][aria-selected="true"] {
+    background: #1976d2;
+    color: #fff;
+}
+
+.hwing-edit-container button[type="submit"] {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.hwing-edit-container button[type="submit"]:hover {
+    background-color: #1565c0;
+}
+
+.hwing-edit-container button[type="button"] {
+    background-color: #b0bec5;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.hwing-edit-container button[type="button"]:hover {
+    background-color: #90a4ae;
+}
+
+@media (max-width: 600px) {
+    .hwing-edit-container {
+        padding: 16px 4px;
+    }
+    .tablist {
+        flex-direction: column;
+        gap: 4px;
+        align-items: stretch;
+    }
+}
+
+/* Especialidade select estilizado */
+#specialty {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+    background: #f4f8fb;
+    transition: border 0.2s;
+    appearance: none;
+}
+
+#specialty:focus {
+    border: 1.5px solid #1976d2;
+    background: #fff;
+    outline: none;
+}

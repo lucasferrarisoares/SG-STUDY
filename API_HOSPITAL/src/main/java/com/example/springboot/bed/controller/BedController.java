@@ -28,14 +28,19 @@ public class BedController {
         return ResponseEntity.status(HttpStatus.OK).body(bedService.listAll());
     }
 
-    @GetMapping("/beds/{cdbed}")
-    public ResponseEntity<Object> getOneBed(@PathVariable(value="cdbed") Long cdbed) {
-        BedModel bed = bedService.findById(cdbed);
+    @GetMapping("/bedsSpecialty/{cdSpecialty}")
+    public ResponseEntity<List<BedModel>> getBySpecialty(@PathVariable(value="cdSpecialty") Integer cdSpecialty) {
+        return ResponseEntity.status(HttpStatus.OK).body(bedService.findBySpecialty(cdSpecialty));
+    }
+
+    @GetMapping("/beds/{cdBed}")
+    public ResponseEntity<Object> getOneBed(@PathVariable(value="cdBed") Long cdBed) {
+        BedModel bed = bedService.findById(cdBed);
         return ResponseEntity.status(HttpStatus.OK).body(bed);
     }
 
-    @PutMapping("/beds/{cdbed}")
-    public ResponseEntity<Object> updateBed(@PathVariable(value="cdbed") long cdbed,
+    @PutMapping("/beds/{cdBed}")
+    public ResponseEntity<Object> updateBed(@PathVariable(value="cdBed") long cdBed,
                                                @RequestBody @Valid BedDTO bedDTO) {
         BedModel bed = bedService.findById(cdbed);
         BeanUtils.copyProperties(bedDTO, bed);
