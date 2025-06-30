@@ -53,8 +53,8 @@ public class HospitalizationsLogService {
         hospitalRepository.delete(hospital);
     }
 
-    public HospitalizationsLogModel findHospitalizedByPatient(Long cdPatient) {
-        return hospitalRepository.findHospitalizedByPatient(cdPatient);
+    public HospitalizationsLogModel findHospitalizedByPatient(@NotNull Long cdHospitalization) {
+        return hospitalRepository.findById(cdHospitalization).orElseThrow(null);
     }
 
     public Stream<HospitalizationActiveDTO> listActiveHospitalizations() {

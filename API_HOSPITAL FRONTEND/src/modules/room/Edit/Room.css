@@ -1,0 +1,67 @@
+.room-edit-container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.room-edit-container h2 {
+    color: #1976d2;
+    margin-top: 0;
+}
+
+.room-edit-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.room-edit-container label {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.room-edit-container input[type="text"],
+.room-edit-container select {
+    padding: 8px;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.room-edit-container button {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 6px 4px 0 0;
+}
+
+.room-edit-container button[type="button"] {
+    background-color: #b0bec5;
+    color: #333;
+}
+
+.room-edit-container button:hover {
+    background-color: #1565c0;
+}
+
+.room-edit-container button[type="button"]:hover {
+    background-color: #90a4ae;
+}
+
+@media (max-width: 600px) {
+    .room-edit-container {
+        padding: 16px 4px;
+    }
+}

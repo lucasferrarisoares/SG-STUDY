@@ -52,6 +52,6 @@ public class HospitalizationsLogController {
     public ResponseEntity<Object> deleteHospitalizationsLog(@PathVariable(value="cdHospitalizationsLog") long cdHospitalizationsLog) {
         HospitalizationsLogModel hospitalizationsLog = hospitalizationsLogService.findById(cdHospitalizationsLog);
         hospitalizationsLogService.delete(hospitalizationsLog);
-        return ResponseEntity.status(HttpStatus.OK).body("HospitalIzationsLog deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body("HospitalizationsLog deletado com sucesso");
     }
 }

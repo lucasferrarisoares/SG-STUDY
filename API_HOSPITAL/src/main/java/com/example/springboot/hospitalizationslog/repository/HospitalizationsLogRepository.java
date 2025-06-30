@@ -7,15 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface HospitalizationsLogRepository extends JpaRepository<HospitalizationsLogModel, Long> {
 
     @Query(nativeQuery = true,
-        value = "SELECT H.* FROM CEH_HOSPITAL H WHERE " +
-                "H.CD_PATIENT = :cdPatient AND " +
-                "H.DT_DISCHARGE IS NULL")
+            value = "SELECT H FROM ceh_hospitalizationslog H " +
+                    "WHERE H.DT_DISCHARGE IS NULL LIMIT 1")
     HospitalizationsLogModel findHospitalizedByPatient(@Param("cdPatient") Long cdPatient);
 
     @Query(nativeQuery = true, value =

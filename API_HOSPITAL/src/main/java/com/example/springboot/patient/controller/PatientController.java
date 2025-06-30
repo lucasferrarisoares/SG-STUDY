@@ -7,19 +7,20 @@ import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsFinalDTO;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
-import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
-import com.example.springboot.hwing.service.HWingService;
 import com.example.springboot.patient.DTO.PatientDTO;
 import com.example.springboot.patient.model.PatientModel;
 import com.example.springboot.patient.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +49,23 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.OK).body(patient);
     }
 
+    @GetMapping("/historicHospitalization/{cdPatient}")
+    public ResponseEntity<Object> getHistoryHospitalizationInfo(
+            @PathVariable("cdPatient") Long cdPatient,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                patientService.findHistoryHospitalization(cdPatient, pageable));
+    }
+
+    @GetMapping("/patientsHospitalization/{cdPatient}")
+    public ResponseEntity<Object> getPatientHospitalizationInfo(@PathVariable(value="cdPatient") Long cdPatient) {
+        return ResponseEntity.ok(this.patientService.findPatientHospitalizationInfo(cdPatient));
+    }
+
     @PutMapping("/patients/{cdPatient}")
     public ResponseEntity<Object> updatepatient(@PathVariable(value="cdPatient") long cdPatient,
                                                @RequestBody @Valid PatientDTO patientDTO) {
@@ -58,8 +76,7 @@ public class PatientController {
 
     @DeleteMapping("/patients/{cdPatient}")
     public ResponseEntity<Object> deletepatient(@PathVariable(value="cdPatient") long cdPatient) {
-        PatientModel patient = patientService.findById(cdPatient);
-        patientService.delete(patient);
+        patientService.delete(patientService.findById(cdPatient));
         return ResponseEntity.status(HttpStatus.OK).body("patient deletado com sucesso");
     }
 
@@ -75,21 +92,14 @@ public class PatientController {
         bedService.update(bed);
 
         HospitalizationsFinalDTO hospitalizationsFinalDTO = new HospitalizationsFinalDTO(cdPatient, bed.getCdRoom().getCdHWing().getCdHWing(), bed.getCdRoom().getCdRoom(), bed.getCdBed());
-        HospitalizationsLogDTO hospitalizationsLogDTO = new HospitalizationsLogDTO(Specialty.fromcdSpecialty(cdSpecialty), cdPatient, bed.getCdRoom().getCdHWing().getCdHWing());
+        HospitalizationsLogDTO hospitalizationsLogDTO = new HospitalizationsLogDTO(Specialty.fromcdSpecialty(cdSpecialty), cdPatient, bed.getCdBed());
 
         hospitalizationsLogService.save(hospitalizationsLogDTO);
         return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsFinalDTO);
     }
 
-    @PutMapping("/hospitalizations/{cdPatient}")
-    public ResponseEntity<Object>  releasePatient(@PathVariable(value="cdPatient") Long cdPatient) {
-        HospitalizationsLogModel hospitalization = hospitalizationsLogService.findHospitalizedByPatient(cdPatient);
-        hospitalization.setDtDischarge(new Date());
-
-        BedModel bed = bedService.findByPatient(cdPatient);
-        bed.setCdStatus(Status.CLEANING);
-        bed.setCdPatient(null);
-        bedService.update(bed);
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalization);
+    @PutMapping("/releasePatient/{cdHospitalization}")
+    public ResponseEntity<Object>  releasePatient(@PathVariable(value="cdPatient") Long cdHospitalization) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.patientService.releasePatient(cdHospitalization));
     }
 }
