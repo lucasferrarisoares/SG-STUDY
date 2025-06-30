@@ -1,12 +1,9 @@
 package com.example.springboot.patient.service;
 
-import com.example.springboot.bed.model.BedModel;
-import com.example.springboot.bed.service.BedService;
-import com.example.springboot.enumerated.status.Status;
-import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
-import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
 import com.example.springboot.patient.DTO.PatientDTO;
+import com.example.springboot.patient.DTO.PatientHospitalizationDTO;
 import com.example.springboot.patient.model.PatientModel;
+import com.example.springboot.patient.projection.PacientHospitalizationProjection;
 import com.example.springboot.patient.repository.PatientRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -48,6 +45,11 @@ public class PatientService {
 
     public void delete(@NotNull PatientModel patient) {
         patientRepository.delete(patient);
+    }
+
+    public PatientHospitalizationDTO findPatientHospitalizationInfo(Long cdPatient) {
+        PacientHospitalizationProjection projection = this.patientRepository.findPatientHospitalizationInfo(cdPatient);
+        return new PatientHospitalizationDTO(projection.getHpName(), Specialty.fromcdSpecialty(projection.getSpecialty()), projection.getHWingModel(), projection.getCdRoom(), projection.getPtName(), projection.getDtHospitalization());
     }
 
     public Object releasePatient(Long cdHospitalization) {
