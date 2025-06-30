@@ -14,11 +14,13 @@ import com.example.springboot.patient.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,18 @@ public class PatientController {
     public ResponseEntity<Object> getOnepatient(@PathVariable(value="cdPatient") Long cdPatient) {
         PatientModel patient = patientService.findById(cdPatient);
         return ResponseEntity.status(HttpStatus.OK).body(patient);
+    }
+
+    @GetMapping("/historicHospitalization/{cdPatient}")
+    public ResponseEntity<Object> getHistoryHospitalizationInfo(
+            @PathVariable("cdPatient") Long cdPatient,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                patientService.findHistoryHospitalization(cdPatient, pageable));
     }
 
     @GetMapping("/patientsHospitalization/{cdPatient}")
