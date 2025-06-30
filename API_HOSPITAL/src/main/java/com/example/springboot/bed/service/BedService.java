@@ -8,7 +8,6 @@ import com.example.springboot.hwing.model.HWingModel;
 import com.example.springboot.patient.repository.PatientRepository;
 import com.example.springboot.room.repository.RoomRepository;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,7 @@ public class BedService {
         return bedRepository.findFreeBedBySpecialty(cdSpecialty);
     }
 
-    public BedModel findByPatient(@NotBlank Long cdPacient) {
+    public BedModel findByPatient(@NotNull Long cdPacient) {
         return bedRepository.findByPatient(cdPacient);
     }
 
