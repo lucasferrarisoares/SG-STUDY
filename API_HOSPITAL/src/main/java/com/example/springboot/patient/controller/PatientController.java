@@ -18,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.print.Pageable;
 import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +59,11 @@ public class PatientController {
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 patientService.findHistoryHospitalization(cdPatient, pageable));
+    }
+
+    @GetMapping("/patientsHospitalization/{cdPatient}")
+    public ResponseEntity<Object> getPatientHospitalizationInfo(@PathVariable(value="cdPatient") Long cdPatient) {
+        return ResponseEntity.ok(this.patientService.findPatientHospitalizationInfo(cdPatient));
     }
 
     @PutMapping("/patients/{cdPatient}")

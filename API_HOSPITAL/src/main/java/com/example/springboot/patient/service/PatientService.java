@@ -8,16 +8,16 @@ import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
 import com.example.springboot.patient.DTO.PatientDTO;
 import com.example.springboot.patient.DTO.PatientHistoryDTO;
+import com.example.springboot.patient.DTO.PatientHospitalizationDTO;
 import com.example.springboot.patient.model.PatientModel;
+import com.example.springboot.patient.projection.PacientHospitalizationProjection;
 import com.example.springboot.patient.repository.PatientRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
@@ -52,6 +52,11 @@ public class PatientService {
 
     public void delete(@NotNull PatientModel patient) {
         patientRepository.delete(patient);
+    }
+
+    public PatientHospitalizationDTO findPatientHospitalizationInfo(Long cdPatient) {
+        PacientHospitalizationProjection projection = this.patientRepository.findPatientHospitalizationInfo(cdPatient);
+        return new PatientHospitalizationDTO(projection.getHpName(), Specialty.fromcdSpecialty(projection.getSpecialty()), projection.getHWingModel(), projection.getCdRoom(), projection.getPtName(), projection.getDtHospitalization());
     }
 
     public Object releasePatient(Long cdHospitalization) {
