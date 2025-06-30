@@ -1,0 +1,16 @@
+<div class="patient-hospitalization-container" ng-if="patient">
+    <h2>Internar Paciente</h2>
+    <p><strong>Nome:</strong> {{ patient.dePatient }}</p>
+
+    <form ng-submit="internar()">
+        <label for="specialty">Especialidade para internação:</label>
+        <select id="specialty" ng-change="changeSpecialty(cdSpecialty)" required>
+            <option value="" disabled selected>Selecione</option>
+            <option ng-repeat="esp in specialties" value="{{esp.cdSpecialty}}">{{esp.deName}}</option>
+        </select>
+        <p>Selecionado: {{cdSpecialty}}</p>
+        <div ng-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <button type="submit">Confirmar Internação</button>
+        <button type="button" ng-click="voltar()">Cancelar</button>
+    </form>
+</div>

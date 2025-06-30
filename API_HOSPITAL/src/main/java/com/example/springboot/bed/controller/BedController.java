@@ -28,6 +28,11 @@ public class BedController {
         return ResponseEntity.status(HttpStatus.OK).body(bedService.listAll());
     }
 
+    @GetMapping("/bedsSpecialty/{cdSpecialty}")
+    public ResponseEntity<List<BedModel>> getBySpecialty(@PathVariable(value="cdSpecialty") Integer cdSpecialty) {
+        return ResponseEntity.status(HttpStatus.OK).body(bedService.findBySpecialty(cdSpecialty));
+    }
+
     @GetMapping("/beds/{cdBed}")
     public ResponseEntity<Object> getOneBed(@PathVariable(value="cdBed") Long cdBed) {
         BedModel bed = bedService.findById(cdBed);
@@ -55,6 +60,9 @@ public class BedController {
     @DeleteMapping("/beds/{cdBed}")
     public ResponseEntity<Object> deleteBed(@PathVariable(value="cdBed") long cdBed) {
         BedModel bed = bedService.findById(cdBed);
+    @DeleteMapping("/beds/{cdbed}")
+    public ResponseEntity<Object> deleteBed(@PathVariable(value="cdbed") long cdbed) {
+        BedModel bed = bedService.findById(cdbed);
         bedService.delete(bed);
         return ResponseEntity.status(HttpStatus.OK).body("bed deletado com sucesso");
     }
