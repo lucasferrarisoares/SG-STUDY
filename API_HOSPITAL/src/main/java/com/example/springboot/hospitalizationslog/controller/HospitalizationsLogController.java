@@ -1,5 +1,6 @@
 package com.example.springboot.hospitalizationslog.controller;
 
+import com.example.springboot.hospitalizationslog.DTO.HospitalizationActiveDTO;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 public class HospitalizationsLogController {
@@ -25,6 +27,11 @@ public class HospitalizationsLogController {
     @GetMapping("/hospitalizationsLogs")
     public ResponseEntity<List<HospitalizationsLogModel>> getAllhospitalizationsLogs() {
         return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLogService.listAll());
+    }
+
+    @GetMapping("/hospitalizationsActive")
+    public ResponseEntity<Stream<HospitalizationActiveDTO>> getActiveHospitalizations() {
+        return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLogService.listActiveHospitalizations());
     }
 
     @GetMapping("/hospitalizationsLogs/{cdHospitalizationsLog}")

@@ -20,7 +20,7 @@ public interface BedRepository extends JpaRepository<BedModel, Long> {
 
     @Query(nativeQuery = true,
             value = "SELECT B.* FROM CEH_LEITO B WHERE " +
-                    "B.CD_PATIENT = :cdPatient AND ")
+                    "B.CD_PATIENT = :cdPatient ")
     BedModel findByPatient(@Param("cdPatient") Long cdPatient);
 
     @Query(nativeQuery = true,

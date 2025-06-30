@@ -1,0 +1,72 @@
+.room-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.room-container h2, .room-container h3, .room-container h4 {
+    color: #1976d2;
+    margin-top: 0;
+}
+
+.room-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.room-container label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.room-container input {
+    padding: 8px;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.room-container button {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.room-container button:hover {
+    background-color: #1565c0;
+}
+
+.room-container hr {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.room-container ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+}
+
+.room-container li {
+    background: #f4f8fb;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #333;
+    font-size: 1em;
+}

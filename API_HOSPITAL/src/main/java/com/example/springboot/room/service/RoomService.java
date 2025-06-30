@@ -4,7 +4,10 @@ import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hwing.repository.HWingRepository;
 import com.example.springboot.room.DTO.RoomDTO;
+import com.example.springboot.room.DTO.RoomSpecialtyDTO;
+import com.example.springboot.room.DTO.RoomNUDTO;
 import com.example.springboot.room.model.RoomModel;
+import com.example.springboot.room.projection.RoomProjection;
 import com.example.springboot.room.repository.RoomRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
@@ -30,6 +34,11 @@ public class RoomService {
     public RoomModel findById(long id) {
         return this.roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room não encontrado"));
     }
+
+    public RoomModel findByPatient(long cdPatient) {
+        return roomRepository.findByPatient(cdPatient);
+    }
+
     public List<RoomModel> listAll() {
         return this.roomRepository.findAll();
     }
@@ -40,6 +49,14 @@ public class RoomService {
         room.setDeCodigo(roomDTO.deCodigo());
         room.setCdHWing(this.hwingRepository.findById(roomDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrada")));
         return this.roomRepository.save(room);
+        room.setCdHWing(this.hwingRepository.findById(roomDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrado")));
+        return this.roomRepository.save(room);
+    }
+
+    public RoomNUDTO nuRoomBySpecialty(Integer cdSpecialty) {
+        Long freeBed = roomRepository.nuFreeRoomBySpecialty(cdSpecialty);
+        Long busyBed = roomRepository.nuBusyRoomBySpecialty(cdSpecialty);
+        return new RoomNUDTO(Specialty.fromcdSpecialty(cdSpecialty), freeBed, busyBed, freeBed + busyBed);
     }
 
     public RoomModel update(@NotNull RoomModel room) {
@@ -56,5 +73,14 @@ public class RoomService {
             room.setCdStatus(Status.BUSY);
             this.update(room);
         }
+        this.roomRepository.delete(room);
+    }
+
+    public List<RoomSpecialtyDTO> listFreeRoom() {
+        List<RoomProjection> projections = roomRepository.listFreeRoom();
+
+        return projections.stream()
+                .map(projection -> new RoomSpecialtyDTO(projection.getDeCode(), Specialty.fromcdSpecialty(projection.getCdSpecialty())))
+                .collect(Collectors.toList());
     }
 }
