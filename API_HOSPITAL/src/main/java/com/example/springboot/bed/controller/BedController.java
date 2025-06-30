@@ -42,14 +42,14 @@ public class BedController {
     @PutMapping("/beds/{cdBed}")
     public ResponseEntity<Object> updateBed(@PathVariable(value="cdBed") long cdBed,
                                                @RequestBody @Valid BedDTO bedDTO) {
-        BedModel bed = bedService.findById(cdBed);
+        BedModel bed = bedService.findById(cdbed);
         BeanUtils.copyProperties(bedDTO, bed);
         return ResponseEntity.status(HttpStatus.OK).body(bedService.update(bed));
     }
 
-    @DeleteMapping("/beds/{cdBed}")
-    public ResponseEntity<Object> deleteBed(@PathVariable(value="cdBed") long cdBed) {
-        BedModel bed = bedService.findById(cdBed);
+    @DeleteMapping("/beds/{cdbed}")
+    public ResponseEntity<Object> deleteBed(@PathVariable(value="cdbed") long cdbed) {
+        BedModel bed = bedService.findById(cdbed);
         bedService.delete(bed);
         return ResponseEntity.status(HttpStatus.OK).body("bed deletado com sucesso");
     }

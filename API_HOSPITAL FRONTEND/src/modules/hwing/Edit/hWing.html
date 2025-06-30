@@ -1,0 +1,18 @@
+<div class="hwing-edit-container" ng-if="hwing">
+    <h2>Editar Ala</h2>
+    <form ng-submit="salvarEdicao()">
+        <label>ID:</label>
+        <input type="text" ng-model="hwing.cdHWing" readonly><br>
+        <label>Hospital:</label>
+        <input type="text" ng-model="hwing.cdHospital.deHospital" readonly><br>
+
+        <label for="specialty">Especialidade:</label>
+        <select id="specialty" ng-model="hwing.cdSpecialty" required>
+            <option value="" disabled>Selecione</option>
+            <option ng-repeat="esp in specialties" value="{{esp.cdSpecialty.deName}}">{{esp.deName}}</option>
+        </select>
+
+        <button type="submit">Salvar</button>
+        <button type="button" ng-click="voltar()">Cancelar</button>
+    </form>
+</div>
