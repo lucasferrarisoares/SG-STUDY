@@ -47,6 +47,8 @@ public class RoomService {
         RoomModel room = new RoomModel();
         room.setCdStatus(Status.fromcdStatus(roomDTO.cdStatus()));
         room.setDeCodigo(roomDTO.deCodigo());
+        room.setCdHWing(this.hwingRepository.findById(roomDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrada")));
+        return this.roomRepository.save(room);
         room.setCdHWing(this.hwingRepository.findById(roomDTO.cdHWing()).orElseThrow(() -> new RuntimeException("Ala não encontrado")));
         return this.roomRepository.save(room);
     }
@@ -62,6 +64,15 @@ public class RoomService {
     }
 
     public void delete(@NotNull RoomModel room) {
+        this.roomRepository.delete(room);
+    }
+
+    public void verifyRoomIsFree(Long cdRoom) {
+        if (!(this.roomRepository.verifyRoomIsFree(cdRoom))) {
+            RoomModel room = this.findById(cdRoom);
+            room.setCdStatus(Status.BUSY);
+            this.update(room);
+        }
         this.roomRepository.delete(room);
     }
 

@@ -37,4 +37,17 @@ public interface RoomRepository extends JpaRepository<RoomModel, Long> {
                     "JOIN CEH_LEITO L ON L.CD_ROOM = R.CD_ROOM " +
                     "WHERE L.CD_PATIENT = :cdPatient  ")
     RoomModel findByPatient(@Param("cdPatient") Long cdPatient);
+    @Query(nativeQuery = true,
+            value = "SELECT EXISTS (     " +
+                    "    SELECT 1      " +
+                    "       FROM CEH_LEITO L     " +
+                    "    JOIN CEH_ROOM R      " +
+                    "       ON L.CD_ROOM = R.CD_ROOM     " +
+                    "    WHERE      " +
+                    "       L.DE_STATUS = 0 " +
+                    "   AND" +
+                    "       R.CD_ROOM = :cdRoom   " +
+                    ")"
+    )
+    Boolean verifyRoomIsFree(@Param("cdRoom") Long cdRoom);
 }

@@ -7,6 +7,7 @@ import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hwing.model.HWingModel;
 import com.example.springboot.patient.repository.PatientRepository;
 import com.example.springboot.room.repository.RoomRepository;
+import com.example.springboot.room.service.RoomService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
@@ -22,47 +23,48 @@ public class BedService {
     @Autowired
     private BedRepository bedRepository;
     @Autowired
-    private RoomRepository roomRepository;
+    private RoomService roomService;
     @Autowired
     private PatientRepository patientRepository;
 
     public BedModel findById(long id) {
-        return bedRepository.findById(id).orElseThrow(() -> new RuntimeException("Leito não encontrado"));
+        return this.bedRepository.findById(id).orElseThrow(() -> new RuntimeException("Leito não encontrado"));
     }
 
     public List<BedModel> listAll() {
-        return bedRepository.findAll();
+        return this.bedRepository.findAll();
     }
 
     public BedModel save(@RequestBody @Valid BedDTO bedDTO) {
         BedModel bed = new BedModel();
         bed.setDeCode(bedDTO.deCodigo());
         bed.setCdStatus(Status.FREE);
-        bed.setCdRoom(roomRepository.findById(bedDTO.cdRoom()).orElseThrow(() -> new RuntimeException("Quarto não encontrado")));
+        bed.setCdRoom(this.roomService.findById(bedDTO.cdRoom()));
 
         if (bedDTO.cdPatient() != null) {
-            bed.setCdPatient(patientRepository.findById(bedDTO.cdPatient()).orElseThrow(() -> new RuntimeException("Paciente não encontrado")));
+            bed.setCdPatient(this.patientRepository.findById(bedDTO.cdPatient()).orElseThrow(() -> new RuntimeException("Paciente não encontrado")));
         }
-        return bedRepository.save(bed);
+        return this.bedRepository.save(bed);
     }
 
     public BedModel update(@NotNull BedModel bed) {
-        return bedRepository.save(bed);
+        this.roomService.verifyRoomIsFree(bed.getCdRoom().getCdRoom());
+        return this.bedRepository.save(bed);
     }
 
     public void delete(@NotNull BedModel bed) {
-        bedRepository.delete(bed);
+        this.bedRepository.delete(bed);
     }
 
     public BedModel findFreeBedBySpecialty(@NotNull Integer cdSpecialty) {
-        return bedRepository.findFreeBedBySpecialty(cdSpecialty);
+        return this.bedRepository.findFreeBedBySpecialty(cdSpecialty);
     }
 
     public BedModel findByPatient(@NotNull Long cdPacient) {
-        return bedRepository.findByPatient(cdPacient);
+        return this.bedRepository.findByPatient(cdPacient);
     }
 
     public Object findHospitalizationLogByBed(Long cdBed) {
-        return bedRepository.findHospitalizationLogByBed(cdBed);
+        return this.bedRepository.findHospitalizationLogByBed(cdBed);
     }
 }
