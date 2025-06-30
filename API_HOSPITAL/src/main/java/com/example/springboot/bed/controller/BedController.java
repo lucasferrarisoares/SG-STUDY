@@ -28,28 +28,28 @@ public class BedController {
         return ResponseEntity.status(HttpStatus.OK).body(bedService.listAll());
     }
 
+    @GetMapping("/bedsSpecialty/{cdSpecialty}")
+    public ResponseEntity<List<BedModel>> getBySpecialty(@PathVariable(value="cdSpecialty") Integer cdSpecialty) {
+        return ResponseEntity.status(HttpStatus.OK).body(bedService.findBySpecialty(cdSpecialty));
+    }
+
     @GetMapping("/beds/{cdBed}")
     public ResponseEntity<Object> getOneBed(@PathVariable(value="cdBed") Long cdBed) {
         BedModel bed = bedService.findById(cdBed);
         return ResponseEntity.status(HttpStatus.OK).body(bed);
     }
 
-    @GetMapping("/bedsHistory/{cdBed}")
-    public ResponseEntity<Object> getBedHistory(@PathVariable(value="cdBed") Long cdBed) {
-        return ResponseEntity.status(HttpStatus.OK).body(bedService.findHospitalizationLogByBed(cdBed));
-    }
-
     @PutMapping("/beds/{cdBed}")
     public ResponseEntity<Object> updateBed(@PathVariable(value="cdBed") long cdBed,
                                                @RequestBody @Valid BedDTO bedDTO) {
-        BedModel bed = bedService.findById(cdBed);
+        BedModel bed = bedService.findById(cdbed);
         BeanUtils.copyProperties(bedDTO, bed);
         return ResponseEntity.status(HttpStatus.OK).body(bedService.update(bed));
     }
 
-    @DeleteMapping("/beds/{cdBed}")
-    public ResponseEntity<Object> deleteBed(@PathVariable(value="cdBed") long cdBed) {
-        BedModel bed = bedService.findById(cdBed);
+    @DeleteMapping("/beds/{cdbed}")
+    public ResponseEntity<Object> deleteBed(@PathVariable(value="cdbed") long cdbed) {
+        BedModel bed = bedService.findById(cdbed);
         bedService.delete(bed);
         return ResponseEntity.status(HttpStatus.OK).body("bed deletado com sucesso");
     }

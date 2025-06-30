@@ -1,0 +1,18 @@
+<div class="room-edit-container" ng-if="room">
+    <h2>Editar Quarto</h2>
+    <form ng-submit="saveEdicao()">
+        <label>ID:</label>
+        <input type="text" ng-model="room.cdRoom" readonly><br>
+        <label>Código:</label>
+        <input type="text" ng-model="room.deCodigo" required><br>
+        <label>Status:</label>
+        <select ng-model="room.cdStatus" required>
+            <option value="" disabled>Selecione</option>
+            <option ng-repeat="status in statusList" ng-value="status.cdStatus">{{status.deName}}</option>
+        </select><br>
+        <label>Código de Ala:</label>
+        <input type="text" ng-model="room.cdHWing.cdHWing" readonly><br>
+        <button type="submit">Salvar</button>
+        <button type="button" ng-click="voltar()">Cancelar</button>
+    </form>
+</div>

@@ -1,0 +1,27 @@
+<div class="bed-container">
+    <h2>Cadastro de Leitos</h2>
+    <form ng-submit="addBed()">
+        <label for="quarto">Quarto:</label>
+        <input type="text" id="quarto" ng-model="newBed.quarto" required>
+
+        <label for="especialidade">Especialidade:</label>
+        <input type="text" id="especialidade" ng-model="newBed.especialidade" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <hr>
+
+    <h3>Filtrar por Especialidade</h3>
+    <input type="text" ng-model="filtroEspecialidade" placeholder="Digite a especialidade">
+
+    <hr>
+
+    <h3>Lista de Leitos</h3>
+    <ul>
+        <li ng-repeat="bed in beds | filter:{especialidade: filtroEspecialidade}">
+            Quarto: {{ bed.quarto }} | Especialidade: {{ bed.especialidade }}
+            <button ng-click="verHistorico(bed)">Histórico de internação</button>
+        </li>
+    </ul>
+</div>
