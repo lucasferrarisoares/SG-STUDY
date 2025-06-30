@@ -1,12 +1,7 @@
 package com.example.springboot.patient.controller;
 
 
-import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.bed.service.BedService;
-import com.example.springboot.enumerated.specialty.Specialty;
-import com.example.springboot.enumerated.status.Status;
-import com.example.springboot.hospitalizationslog.DTO.HospitalizationsFinalDTO;
-import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
 import com.example.springboot.patient.DTO.PatientDTO;
 import com.example.springboot.patient.model.PatientModel;
@@ -18,10 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import java.util.Date;
+
 import java.util.List;
 
 @RestController

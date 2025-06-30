@@ -18,6 +18,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -100,7 +102,7 @@ public class PatientService {
 
 
     public Page<PatientHistoryDTO> findHistoryHospitalization(Long cdPatient, Pageable pageable) {
-        Page<PatientHistoryProjection> page = patientRepository.findHistoryHospitalization(cdPatient, pageable);
+        Page<PatientHistoryProjection> page = this.patientRepository.findHistoryHospitalization(cdPatient, pageable);
 
         return page.map(projection -> new PatientHistoryDTO(
                 projection.getPtName(), projection.getDeSpecialty(),

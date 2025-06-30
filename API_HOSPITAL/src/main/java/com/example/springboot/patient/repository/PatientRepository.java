@@ -2,6 +2,7 @@ package com.example.springboot.patient.repository;
 
 import com.example.springboot.patient.model.PatientModel;
 import com.example.springboot.patient.projection.PacientHospitalizationProjection;
+import com.example.springboot.patient.projection.PatientHistoryProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
