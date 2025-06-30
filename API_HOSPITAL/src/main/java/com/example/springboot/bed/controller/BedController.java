@@ -54,16 +54,11 @@ public class BedController {
 
     @PutMapping("/finishCleaning/{cdBed}")
     public ResponseEntity<Object> finishCleaning(@PathVariable(value="cdBed") Long cdBed) {
-        return ResponseEntity.status(HttpStatus.OK).body(bedService.finishCleaning(cdBed));
+        return ResponseEntity.status(HttpStatus.OK).body(this.bedService.finishCleaning(cdBed));
     }
 
     @DeleteMapping("/beds/{cdBed}")
     public ResponseEntity<Object> deleteBed(@PathVariable(value="cdBed") long cdBed) {
-        BedModel bed = bedService.findById(cdBed);
-    @DeleteMapping("/beds/{cdbed}")
-    public ResponseEntity<Object> deleteBed(@PathVariable(value="cdbed") long cdbed) {
-        BedModel bed = bedService.findById(cdbed);
-        bedService.delete(bed);
-        return ResponseEntity.status(HttpStatus.OK).body("bed deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body(this.bedService.delete(bedService.findById(cdBed)));
     }
 }

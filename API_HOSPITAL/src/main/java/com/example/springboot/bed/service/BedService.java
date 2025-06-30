@@ -50,8 +50,9 @@ public class BedService {
         return this.bedRepository.save(bed);
     }
 
-    public void delete(@NotNull BedModel bed) {
+    public String delete(@NotNull BedModel bed) {
         this.bedRepository.delete(bed);
+        return "Cama deletada com sucesso";
     }
 
     public BedModel findFreeBedBySpecialty(@NotNull Integer cdSpecialty) {
@@ -71,5 +72,9 @@ public class BedService {
         bed.setCdStatus(Status.FREE);
         //FUNÇÃO PARA COLOCAR O QUARTO COMO LIVRE.
         return this.update(bed);
+    }
+
+    public List<BedModel> findBySpecialty(Integer cdSpecialty) {
+        return this.bedRepository.findBySpecialty(cdSpecialty);
     }
 }
