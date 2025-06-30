@@ -1,7 +1,7 @@
 package com.example.springboot.bed.repository;
 
 import com.example.springboot.bed.model.BedModel;
-import com.example.springboot.hwing.model.HWingModel;
+import com.example.springboot.bed.projection.BedProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +20,7 @@ public interface BedRepository extends JpaRepository<BedModel, Long> {
 
     @Query(nativeQuery = true,
             value = "SELECT B.* FROM CEH_LEITO B WHERE " +
-                    "B.CD_PATIENT = :cdPatient AND ")
+                    "B.CD_PATIENT = :cdPatient ")
     BedModel findByPatient(@Param("cdPatient") Long cdPatient);
 
     @Query(nativeQuery = true,
@@ -29,4 +29,17 @@ public interface BedRepository extends JpaRepository<BedModel, Long> {
                     "JOIN CEH_HWING W ON R.CD_HWING = W.CD_HWING " +
                     "WHERE L.DE_STATUS = 0  AND W.DE_SPECIALTY = :cdSpecialty")
     List<BedModel> findBySpecialty(@Param("cdSpecialty") Integer cdSpecialty);
+
+    @Query(nativeQuery = true,
+            value = "select     " +
+                        "HL.CD_BED as cdBed,     " +
+                        "P.de_patient as dePatient,     " +
+                        "HL.dt_hospitalization  as dtHospitalization,     " +
+                        "HL.dt_discharge  as dtDischarge     " +
+                    "from ceh_hospitalizationslog HL      " +
+                    "join ceh_patient P on      " +
+                        "P.cd_patient = HL.cd_patiente     " +
+                    "where     " +
+                        "HL.cd_BED = :cdBed")
+    List<BedProjection> findHospitalizationLogByBed(@Param("cdBed") Long cdBed);
 }
