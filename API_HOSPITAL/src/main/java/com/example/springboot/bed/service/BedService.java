@@ -62,4 +62,8 @@ public class BedService {
     public BedModel findByPatient(@NotBlank Long cdPacient) {
         return bedRepository.findByPatient(cdPacient);
     }
+
+    public Object findHospitalizationLogByBed(Long cdBed) {
+        return bedRepository.findHospitalizationLogByBed(cdBed);
+    }
 }

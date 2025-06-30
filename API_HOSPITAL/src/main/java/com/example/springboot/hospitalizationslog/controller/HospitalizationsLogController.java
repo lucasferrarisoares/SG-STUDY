@@ -1,12 +1,8 @@
 package com.example.springboot.hospitalizationslog.controller;
 
-import com.example.springboot.bed.model.BedModel;
-import com.example.springboot.bed.service.BedService;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
 import com.example.springboot.hospitalizationslog.service.HospitalizationsLogService;
-import com.example.springboot.patient.DTO.PatientDTO;
-import com.example.springboot.patient.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +45,6 @@ public class HospitalizationsLogController {
     public ResponseEntity<Object> deleteHospitalizationsLog(@PathVariable(value="cdHospitalizationsLog") long cdHospitalizationsLog) {
         HospitalizationsLogModel hospitalizationsLog = hospitalizationsLogService.findById(cdHospitalizationsLog);
         hospitalizationsLogService.delete(hospitalizationsLog);
-        return ResponseEntity.status(HttpStatus.OK).body("HospitalIzationsLog deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body("HospitalizationsLog deletado com sucesso");
     }
 }
