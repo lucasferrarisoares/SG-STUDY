@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="meuApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital SG - Home</title>
+    <link rel="stylesheet" href="src/modules/hospital/Edit/Hospital.css">
+    <link rel="stylesheet" href="src/modules/hospital/List/HospitalList.css">
+    <link rel="stylesheet" href="src/modules/patient/List/PatientList.css">
+    <link rel="stylesheet" href="src/modules/patient/Edit/Patient.css">
+    <link rel="stylesheet" href="src/modules/patient/Hopitalization/PatientHospitalization.css">
+    <link rel="stylesheet" href="src/modules/hwing/List/hWingList.css">
+    <link rel="stylesheet" href="src/modules/hwing/Edit/hWing.css">
+    <link rel="stylesheet" href="src/modules/room/List/RoomList.css">
+    <link rel="stylesheet" href="src/modules/room/Edit/Room.css">
+    <link rel="stylesheet" href="src/modules/bed/List/BedList.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body  ng-controller="HomeController">
+    <header>
+        <img src="image/inicial.png" alt="Logo" class="logo">
+        <h1 style="cursor:pointer;" ng-click="goHome()">Hospital SG</h1>
+        <p>Bem-vindo ao sistema de gestão hospitalar</p>
+    </header>
+    <nav>
+        <a href="#!/hospital">Hospital</a>
+        <a href="#!/hwing">Alas</a>
+        <a href="#!/room">Quartos</a>
+        <a href="#!/bed">Camas</a>
+        <a href="#!/patient">Pacientes</a>
+        <a href="#!/logs">Logs Hospitazações</a>
+    </nav>
+    <main ng-view></main>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script src="dist/bundle.js"></script>
+</body>
+</html>

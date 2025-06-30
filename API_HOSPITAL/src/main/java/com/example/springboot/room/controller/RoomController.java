@@ -2,11 +2,13 @@ package com.example.springboot.room.controller;
 
 import com.example.springboot.bed.DTO.BedDTO;
 import com.example.springboot.bed.controller.BedController;
+import com.example.springboot.hwing.model.HWingModel;
 import com.example.springboot.room.DTO.RoomDTO;
 import com.example.springboot.room.DTO.RoomNUDTO;
 import com.example.springboot.room.model.RoomModel;
 import com.example.springboot.room.service.RoomService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +36,16 @@ public class RoomController {
 
     @GetMapping("/rooms/{cdRoom}")
     public ResponseEntity<Object> getOneroom(@PathVariable(value="cdRoom") long cdRoom) {
-        RoomModel room = roomService.findById(cdRoom);
-        return ResponseEntity.status(HttpStatus.OK).body(room);
+        return ResponseEntity.status(HttpStatus.OK).body(roomService.findById(cdRoom));
+    }
+
+    @GetMapping("/roomsPatient/{cdPatient}")
+    public ResponseEntity<Object> getByPatient(@PathVariable(value="cdPatient") long cdPatient) {
+        RoomModel room = roomService.findByPatient(cdPatient);
+        if (room != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(room);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não está internado");
     }
 
     @GetMapping("/roomSpecialty/{cdSpecialty}")

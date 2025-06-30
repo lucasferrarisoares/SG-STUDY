@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -35,17 +36,16 @@ public class HospitalController {
     }
 
     @PutMapping("/hospitals/{cdHospital}")
-    public ResponseEntity<Object> updateHospital(@PathVariable(value="cdHospital") long cdHospital,
-                                               @RequestBody @Valid HospitalDTO hospitalDTO) {
+    public ResponseEntity<HospitalModel> updateHospital(@PathVariable(value="cdHospital") long cdHospital,
+            @RequestBody @Valid HospitalDTO hospitalDTO) {
         HospitalModel hospital = hospitalService.findById(cdHospital);
-        BeanUtils.copyProperties(hospitalDTO, hospital);
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalService.update(hospital));
+        hospital.setDeHospital(hospitalDTO.deHospital());
+        return ResponseEntity.ok(hospitalService.update(hospital));
     }
 
     @DeleteMapping("/hospitals/{cdHospital}")
     public ResponseEntity<Object> deleteHospital(@PathVariable(value="cdHospital") long cdHospital) {
-        HospitalModel hospital = hospitalService.findById(cdHospital);
-        hospitalService.delete(hospital);
-        return ResponseEntity.status(HttpStatus.OK).body("hospital deletado com sucesso");
+        hospitalService.delete(hospitalService.findById(cdHospital));
+        return ResponseEntity.ok(Collections.singletonMap("mensagem", "hospital deletado com sucesso"));
     }
 }
