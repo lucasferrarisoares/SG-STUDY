@@ -29,7 +29,7 @@ public class HWingService {
     @Autowired private RoomService roomService;
     @Autowired private BedService bedService;
 
-    private HWingService(HWingRepository hwingRepository, HospitalService hospitalService, RoomService roomService ) {}
+    public HWingService(HWingRepository hwingRepository, HospitalService hospitalService, RoomService roomService ) {}
 
     //Encontra a ala por ID
     @Transactional(readOnly = true)
