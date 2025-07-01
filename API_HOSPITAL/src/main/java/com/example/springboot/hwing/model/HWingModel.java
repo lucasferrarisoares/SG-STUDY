@@ -27,4 +27,7 @@ public class HWingModel implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "CD_HOSPITAL")
     private HospitalModel cdHospital;
+
+    @Column(name = "NU_ROOM")
+    private Integer nuRoom;
 }

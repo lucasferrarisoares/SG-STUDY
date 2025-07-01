@@ -19,38 +19,31 @@ import java.util.List;
 
 @RestController
 public class RoomController {
-    @Autowired
-    private RoomService roomService;
+    @Autowired private RoomService roomService;
 
     @PostMapping("/rooms")
     public ResponseEntity<RoomModel> saveRoom(@RequestBody @Valid RoomDTO roomDTO) {
-        RoomModel room = roomService.save(roomDTO);
-        generateBed(roomDTO.nuBed(), room);
-        return ResponseEntity.status(HttpStatus.CREATED).body(room);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.roomService.save(roomDTO));
     }
 
     @GetMapping("/rooms")
     public ResponseEntity<List<RoomModel>> getAllrooms() {
-        return ResponseEntity.status(HttpStatus.OK).body(roomService.listAll());
+        return ResponseEntity.status(HttpStatus.OK).body(this.roomService.listAll());
     }
 
     @GetMapping("/freerooms")
     public ResponseEntity<List<RoomSpecialtyDTO>> getFreeRoom() {
-        return ResponseEntity.status(HttpStatus.OK).body(roomService.listFreeRoom());
+        return ResponseEntity.status(HttpStatus.OK).body(this.roomService.listFreeRoom());
     }
 
     @GetMapping("/rooms/{cdRoom}")
     public ResponseEntity<Object> getOneroom(@PathVariable(value="cdRoom") long cdRoom) {
-        return ResponseEntity.status(HttpStatus.OK).body(roomService.findById(cdRoom));
+        return ResponseEntity.status(HttpStatus.OK).body(this.roomService.findById(cdRoom));
     }
 
     @GetMapping("/roomsPatient/{cdPatient}")
-    public ResponseEntity<Object> getByPatient(@PathVariable(value="cdPatient") long cdPatient) {
-        RoomModel room = roomService.findByPatient(cdPatient);
-        if (room != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(room);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não está internado");
+    public ResponseEntity<Object> getRoomByPatient(@PathVariable(value="cdPatient") long cdPatient) {
+        return roomService.findByPatient(cdPatient);
     }
 
     @GetMapping("/roomSpecialty/{cdSpecialty}")
@@ -59,25 +52,12 @@ public class RoomController {
     }
 
     @PutMapping("/rooms/{cdRoom}")
-    public ResponseEntity<Object> updateRoom(@PathVariable(value="cdRoom") long cdRoom,
-                                               @RequestBody @Valid RoomDTO roomDTO) {
-        RoomModel room = roomService.findById(cdRoom);
-        BeanUtils.copyProperties(roomDTO, room);
-        return ResponseEntity.status(HttpStatus.OK).body(roomService.update(room));
+    public ResponseEntity<Object> updateRoom(@PathVariable(value="cdRoom") long cdRoom, @RequestBody @Valid RoomDTO roomDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(roomService.update(cdRoom, roomDTO));
     }
 
     @DeleteMapping("/rooms/{cdRoom}")
     public ResponseEntity<Object> deleteRoom(@PathVariable(value="cdRoom") long cdRoom) {
-        RoomModel room = roomService.findById(cdRoom);
-        roomService.delete(room);
-        return ResponseEntity.status(HttpStatus.OK).body("Room deletado com sucesso");
-    }
-
-    public void generateBed(int nuBed, RoomModel room) {
-        BedController bedController = new BedController();
-        for (int i = 1; i <= nuBed; i++) {
-            BedDTO bed = new BedDTO(0, room.getCdRoom(),room.getDeCodigo()+"-"+i,null);
-            bedController.saveBed(bed);
-        }
+        return this.roomService.delete(cdRoom);
     }
 }
