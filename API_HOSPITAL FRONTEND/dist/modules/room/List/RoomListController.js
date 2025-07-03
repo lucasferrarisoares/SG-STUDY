@@ -2,11 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function RoomController($scope, $http, $location) {
     $scope.rooms = [];
+    $scope.freeRooms = [];
+    $scope.occupiedRooms = [];
     $scope.newRoom = {};
     $scope.specialties = [];
-    $scope.budyRoom = 0;
-    $scope.freeRoom = 0;
-    $scope.totalRoom = 0;
+    $scope.statusList = [];
+    $scope.specialty = "";
+    $scope.nuRoomDTO = {
+        budyRoom: "",
+        freeRoom: "",
+        totalRoom: ""
+    };
     $scope.listRoom = function () {
         $http.get('http://localhost:8080/rooms')
             .then(function (response) {
@@ -19,12 +25,19 @@ function RoomController($scope, $http, $location) {
             $scope.specialties = response.data;
         });
     };
+    $scope.listStatus = function () {
+        $http.get('http://localhost:8080/status')
+            .then(function (response) {
+            $scope.statusList = response.data;
+        });
+    };
     $scope.addRoom = function () {
-        if ($scope.newRoom.cdSpecialty && $scope.newRoom.cdHWing && $scope.newRoom.nuBed) {
+        if ($scope.newRoom.deCodigo && $scope.newRoom.cdStatus && $scope.newRoom.cdHWing && $scope.newRoom.nuBed) {
             $http.post('http://localhost:8080/rooms', $scope.newRoom)
                 .then(function () {
-                $scope.newRoom = { deCodigo: '', cdStatus: 0, cdSpecialty: '', cdHWing: '', nuBed: '' };
+                $scope.newRoom = {};
                 $scope.listRoom();
+                $scope.getFreeRooms();
             });
         }
     };
@@ -32,27 +45,38 @@ function RoomController($scope, $http, $location) {
         $http.delete('http://localhost:8080/rooms/' + cdRoom)
             .then(function () {
             $scope.listRoom();
+            $scope.getFreeRooms();
         });
     };
-    $scope.getNuRoomBySpecialty = function (cdSpecialty) {
-        $http.get('http://localhost:8080/roomSpecialty/' + cdSpecialty)
+    $scope.getNuRoomBySpecialty = function (specialty) {
+        $http.get('http://localhost:8080/roomSpecialty/' + specialty)
             .then(function (response) {
             $scope.nuRoomDTO = response.data;
-            $scope.budyRoom = $scope.nuRoomDTO.budyRoom;
-            $scope.freeRoom = $scope.nuRoomDTO.freeRoom;
-            $scope.totalRoom = $scope.nuRoomDTO.totalRoom;
+            $scope.nuRoomDTO.budyRoom = $scope.nuRoomDTO.budyRoom;
+            $scope.nuRoomDTO.freeRoom = $scope.nuRoomDTO.freeRoom;
+            $scope.nuRoomDTO.totalRoom = $scope.nuRoomDTO.totalRoom;
         });
     };
     $scope.editRoom = function (cdRoom) {
         $location.path('/room/' + cdRoom + '/editar');
     };
-    // $scope.getFreeRooms = function () {
-    //   $http.get('http://localhost:8080/freerooms/')
-    //     .then(function() {
-    //       $scope.listRoom();
-    //   });
-    // };
+    // Busca quartos livres do endpoint correto
+    $scope.getFreeRooms = function () {
+        $http.get('http://localhost:8080/freerooms')
+            .then(function (response) {
+            $scope.freeRooms = response.data;
+        });
+    };
+    // Funções para contagem
+    $scope.getFreeRoomsCount = function () {
+        return $scope.freeRooms.length;
+    };
+    $scope.getOccupiedRoomsCount = function () {
+        // Se não houver endpoint, pode calcular a diferença:
+        return $scope.rooms.length - $scope.freeRooms.length;
+    };
     $scope.listSpecialties();
-    $scope.listRoom();
+    $scope.listStatus();
+    $scope.getFreeRooms();
 }
 exports.default = RoomController;
