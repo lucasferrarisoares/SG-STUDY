@@ -7,7 +7,7 @@ function RoomController($scope, $http, $location) {
     $scope.newRoom = {};
     $scope.specialties = [];
     $scope.statusList = [];
-    $scope.specialty = "";
+    $scope.specialty = null;
     $scope.nuRoomDTO = {
         budyRoom: "",
         freeRoom: "",
@@ -48,6 +48,9 @@ function RoomController($scope, $http, $location) {
             $scope.getFreeRooms();
         });
     };
+    $scope.editRoom = function (cdRoom) {
+        $location.path('/room/' + cdRoom + '/editar');
+    };
     $scope.getNuRoomBySpecialty = function (specialty) {
         $http.get('http://localhost:8080/roomSpecialty/' + specialty)
             .then(function (response) {
@@ -57,9 +60,6 @@ function RoomController($scope, $http, $location) {
             $scope.nuRoomDTO.totalRoom = $scope.nuRoomDTO.totalRoom;
         });
     };
-    $scope.editRoom = function (cdRoom) {
-        $location.path('/room/' + cdRoom + '/editar');
-    };
     // Busca quartos livres do endpoint correto
     $scope.getFreeRooms = function () {
         $http.get('http://localhost:8080/freerooms')
@@ -67,16 +67,7 @@ function RoomController($scope, $http, $location) {
             $scope.freeRooms = response.data;
         });
     };
-    // Funções para contagem
-    $scope.getFreeRoomsCount = function () {
-        return $scope.freeRooms.length;
-    };
-    $scope.getOccupiedRoomsCount = function () {
-        // Se não houver endpoint, pode calcular a diferença:
-        return $scope.rooms.length - $scope.freeRooms.length;
-    };
     $scope.listSpecialties();
     $scope.listStatus();
-    $scope.getFreeRooms();
 }
 exports.default = RoomController;
