@@ -17,7 +17,7 @@
 
         <h3>Resumo dos Quartos por especialidade</h3>
             <select id="roomspecialty" ng-model="specialty" ng-change="getNuRoomBySpecialty(specialty)" required>
-                    <option value="" disabled>Selecione</option>
+                    <option value="" disabled>Selecione para visualizar</option>
                     <option ng-repeat="esp in specialties" ng-value="esp.cdSpecialty">{{esp.deName}}</option>
             </select>
         <ul>
@@ -31,7 +31,7 @@
         <h3>Quartos Livres:</h3>
         <ul>
             <li ng-repeat="room in freeRooms">
-                Código: {{ room.deCode || room.deCodigo }} 
+                Código: {{ room.deCode }} 
                 <button ng-click="editRoom(room.cdRoom)">Editar</button>
                 <button ng-click="removeRoom(room.cdRoom)">Remover</button>
             </li>

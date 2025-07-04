@@ -1,5 +1,6 @@
 package com.example.springboot.room.service;
 
+import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hwing.repository.HWingRepository;
@@ -92,12 +93,15 @@ public class RoomService {
 
     //Verifica se um quarto está ou não ocupado
     @Transactional(readOnly = true)
-    public void verifyRoomIsFree(Long cdRoom) {
-        if (!(this.roomRepository.verifyRoomIsFree(cdRoom))) {
-            RoomModel room = this.findById(cdRoom);
+    public void verifyRoomIsFree(RoomModel room) {
+        if (this.roomRepository.verifyRoomIsFree(room.getCdRoom())) {
             room.setCdStatus(Status.BUSY);
             this.roomRepository.save(room);
+        } else {
+            room.setCdStatus(Status.FREE);
+            this.roomRepository.save(room);
         }
+
     }
 
     //Lista os quartos livres
@@ -106,7 +110,7 @@ public class RoomService {
         List<RoomProjection> projections = this.roomRepository.listFreeRoom();
 
         return projections.stream()
-                .map(projection -> new RoomSpecialtyDTO(projection.getDeCode(), Specialty.fromcdSpecialty(projection.getCdSpecialty())))
+                .map(projection -> new RoomSpecialtyDTO(projection.getCdRoom(), projection.getDeCode(), Specialty.fromcdSpecialty(projection.getCdSpecialty())))
                 .collect(Collectors.toList());
     }
 }

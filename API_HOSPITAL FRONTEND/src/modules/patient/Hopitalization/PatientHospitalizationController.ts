@@ -14,7 +14,7 @@ export default function PatientHospitalizationController($scope: any, $http: any
     $http.get('http://localhost:8080/specialties')
       .then(function(response: any) {
         $scope.specialties = response.data;
-        console.log($scope.specialties);
+        console.log(response.data);
       });
   };
 
@@ -22,12 +22,27 @@ export default function PatientHospitalizationController($scope: any, $http: any
     $scope.cdSpecialty = cdSpecialty;
   };
 
+  $scope.hospitalizationPatient = function() {
+    $scope.errorMessage = '';
+    console.log('cdSpecialty:', $scope.cdSpecialty);
+    $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty, {})
+      .then(function() {
+        $location.path('/patient');
+      }, function(error: any) {
+        if (error.status === 404 && error.data) {
+          $scope.errorMessage = error.data;
+        } else {
+          $scope.errorMessage = 'Erro ao internar paciente!';
+        }
+      });
+  };
+
   $scope.internar = function() {
     $scope.errorMessage = '';
     console.log('cdSpecialty:', $scope.cdSpecialty);
     $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty, {})
       .then(function() {
-        $location.path('/patients');
+        $location.path('/patient');
       }, function(error: any) {
         if (error.status === 404 && error.data) {
           $scope.errorMessage = error.data;
@@ -38,7 +53,7 @@ export default function PatientHospitalizationController($scope: any, $http: any
   };
 
   $scope.voltar = function() {
-    $location.path('/patients');
+    $location.path('/patient');
   };
 
   $scope.listSpecialties();

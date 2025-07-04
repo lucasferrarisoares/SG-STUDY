@@ -36910,18 +36910,33 @@ function PatientHospitalizationController($scope, $http, $routeParams, $location
         $http.get('http://localhost:8080/specialties')
             .then(function (response) {
             $scope.specialties = response.data;
-            console.log($scope.specialties);
+            console.log(response.data);
         });
     };
     $scope.changeSpecialty = function (cdSpecialty) {
         $scope.cdSpecialty = cdSpecialty;
+    };
+    $scope.hospitalization = function () {
+        $scope.errorMessage = '';
+        console.log('cdSpecialty:', $scope.cdSpecialty);
+        $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty, {})
+            .then(function () {
+            $location.path('/patient');
+        }, function (error) {
+            if (error.status === 404 && error.data) {
+                $scope.errorMessage = error.data;
+            }
+            else {
+                $scope.errorMessage = 'Erro ao internar paciente!';
+            }
+        });
     };
     $scope.internar = function () {
         $scope.errorMessage = '';
         console.log('cdSpecialty:', $scope.cdSpecialty);
         $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty, {})
             .then(function () {
-            $location.path('/patients');
+            $location.path('/patient');
         }, function (error) {
             if (error.status === 404 && error.data) {
                 $scope.errorMessage = error.data;
@@ -36932,7 +36947,7 @@ function PatientHospitalizationController($scope, $http, $routeParams, $location
         });
     };
     $scope.voltar = function () {
-        $location.path('/patients');
+        $location.path('/patient');
     };
     $scope.listSpecialties();
 }
@@ -36977,7 +36992,7 @@ function PatientListController($scope, $http, $location) {
     $scope.editPatient = function (cdPatient) {
         $location.path('/patient/' + cdPatient + '/editar');
     };
-    $scope.internarPatient = function (cdPatient) {
+    $scope.hospitalization = function (cdPatient) {
         $location.path('/patients/' + cdPatient + '/internar');
     };
     $scope.listPatients();
@@ -37099,7 +37114,7 @@ function RoomController($scope, $http, $location) {
         });
     };
     // Busca quartos livres do endpoint correto
-    $scope.getFreeRooms = function () {
+    $scope.listFreeRooms = function () {
         $http.get('http://localhost:8080/freerooms')
             .then(function (response) {
             $scope.freeRooms = response.data;
@@ -37107,6 +37122,7 @@ function RoomController($scope, $http, $location) {
     };
     $scope.listSpecialties();
     $scope.listStatus();
+    $scope.listFreeRooms();
 }
 
 

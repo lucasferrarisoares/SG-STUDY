@@ -58,8 +58,10 @@ public class BedService {
 
     //Atualiza uma cama recebendo seu model.
     @Transactional
-    public BedModel update(@NotNull BedModel bed) {
-        return this.bedRepository.save(bed);
+    public BedModel update(@NotNull BedModel updateBed) {
+        BedModel bed = bedRepository.save(updateBed);
+        this.roomService.verifyRoomIsFree(bed.getCdRoom());
+        return bed;
     }
 
     //Deleta a cama
@@ -94,7 +96,7 @@ public class BedService {
         bed.setCdStatus(Status.FREE);
 
         //FUNÇÃO PARA COLOCAR O QUARTO COMO LIVRE.
-        this.roomService.verifyRoomIsFree(bed.getCdRoom().getCdRoom());
+        this.roomService.verifyRoomIsFree(bed.getCdRoom());
         return this.bedRepository.save(bed);
     }
 

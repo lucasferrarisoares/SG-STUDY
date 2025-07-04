@@ -67,7 +67,7 @@ export default function RoomController($scope: any, $http: any, $location: any) 
   }
 
   // Busca quartos livres do endpoint correto
-  $scope.getFreeRooms = function () {
+  $scope.listFreeRooms = function () {
     $http.get('http://localhost:8080/freerooms')
       .then(function(response: any) {
         $scope.freeRooms = response.data;
@@ -76,4 +76,5 @@ export default function RoomController($scope: any, $http: any, $location: any) 
 
   $scope.listSpecialties();
   $scope.listStatus();
+  $scope.listFreeRooms();
 }
