@@ -9,5 +9,5 @@ public interface PatientHistoryProjection {
     String getPtName();
     Specialty getDeSpecialty();
     Date getDtHospitalization();
-    Date getDtDischarg();
+    Date getDtDischarge();
 }

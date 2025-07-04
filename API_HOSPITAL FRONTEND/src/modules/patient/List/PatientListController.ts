@@ -30,7 +30,7 @@ export default function PatientListController($scope: any, $http: any, $location
     $location.path('/patient/' + cdPatient + '/editar');
   };
 
-  $scope.internarPatient = function(cdPatient: number) {
+  $scope.hospitalization = function(cdPatient: number) {
     $location.path('/patients/' + cdPatient + '/internar');
   };
 

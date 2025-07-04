@@ -30,4 +30,7 @@ public class RoomModel implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "CD_HWING")
     private HWingModel cdHWing;
+
+    @Column(name = "NU_BED")
+    private Integer nuBed;
 }

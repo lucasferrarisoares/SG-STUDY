@@ -1,52 +1,41 @@
 <div class="room-container">
     <h2>Cadastro de Quartos</h2>
     <form ng-submit="addRoom()">
+        <label for="codigo">Código do Quarto:</label>
+        <input type="text" id="codigo" ng-model="newRoom.deCodigo" required>
+
         <label for="wing">Ala:</label>
-        <input type="text" id="wing" ng-model="newRoom.cdHWing" required>
+        <input type="number" id="wing" ng-model="newRoom.cdHWing" required>
 
         <label for="beds">Quantidade de leitos:</label>
         <input type="number" id="beds" ng-model="newRoom.nuBed" min="1" required>
-
-        <select id="specialty" ng-model="newRoom.cdSpecialty" required>
-                <option value="" disabled selected>Selecione</option>
-                <option ng-repeat="esp in specialties" value="{{esp.cdSpecialty}}">{{esp.deName}}</option>
-        </select>
 
         <button type="submit">Cadastrar</button>
     </form>
 
     <hr>
 
-    <h3>Resumo dos Quartos</h3>
-    <ul>
-        <li>Total de quartos: {{ rooms.length }}</li>
-        <li>Quartos livres: {{ getFreeRooms().length }}</li>
-        <li>Quartos ocupados: {{ getOccupiedRooms().length }}</li>
-    </ul>
-
-    <h4>Quartos ocupados por especialidade:</h4>
-    <ul>
-        <li ng-repeat="room in rooms">
-            Código: {{ room.deCodigo }} | Status: {{ room.cdStatus }}
-            <div>
-                <button ng-click="editRoom(room.cdRoom)">Editar</button>
-                <button ng-click="removeRoom(room.cdRoom)">Remover</button>
-            </div>
-        </li>
-    </ul>
+        <h3>Resumo dos Quartos por especialidade</h3>
+            <select id="roomspecialty" ng-model="specialty" ng-change="getNuRoomBySpecialty(specialty)" required>
+                    <option value="" disabled>Selecione para visualizar</option>
+                    <option ng-repeat="esp in specialties" ng-value="esp.cdSpecialty">{{esp.deName}}</option>
+            </select>
+        <ul>
+            <li>Total de quartos: {{ nuRoomDTO.totalRoom }}</li>
+            <li>Quartos livres: {{ nuRoomDTO.freeRoom }}</li>
+            <li>Quartos ocupados: {{ nuRoomDTO.budyRoom }}</li>
+        </ul>
 
     <hr>
 
-    <h3>Quartos com leitos disponíveis</h3>
-    <ul>
-        <li ng-repeat="room in getFreeRooms()">
-            Ala: {{ room.ala }} | Especialidade: {{ room.especialidade }} |
-            Leitos livres: {{ room.leitos - room.ocupados }} /
-            {{ room.leitos }}
-            <div>
-            <button ng-click="ocuparLeito(room)" ng-disabled="room.ocupados >= room.leitos">Ocupar leito</button>
-            <button ng-click="liberarLeito(room)" ng-disabled="room.ocupados <= 0">Liberar leito</button>    
-            </div>
-        </li>
-    </ul>
+        <h3>Quartos Livres:</h3>
+        <ul>
+            <li ng-repeat="room in freeRooms">
+                Código: {{ room.deCode }} 
+                <button ng-click="editRoom(room.cdRoom)">Editar</button>
+                <button ng-click="removeRoom(room.cdRoom)">Remover</button>
+            </li>
+        </ul>
+        
+    <hr>
 </div>

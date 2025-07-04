@@ -7,6 +7,10 @@
     padding: 32px 28px;
     text-align: center;
 }
+.hwing-container h2, .hwing-container h3, .hwing-container h4 {
+    color: #1976d2;
+    margin-top: 0;
+}
 .hwing-container form {
     display: flex;
     flex-direction: column;

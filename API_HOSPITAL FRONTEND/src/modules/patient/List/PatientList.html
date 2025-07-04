@@ -12,8 +12,8 @@
         <li ng-repeat="patient in patients">
             {{ patient.dePatient }}
             <button ng-click="editPatient(patient.cdPatient)">Editar</button>
+            <button ng-click="hospitalization(patient.cdPatient)">Internação</button>
             <button ng-click="removePatient(patient.cdPatient)">Remover</button>
-            <button ng-click="internarPatient(patient.cdPatient)">Internar</button>
         </li>
     </ul>
 </div>

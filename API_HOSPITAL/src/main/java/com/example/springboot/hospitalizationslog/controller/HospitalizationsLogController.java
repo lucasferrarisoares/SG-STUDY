@@ -16,42 +16,42 @@ import java.util.stream.Stream;
 
 @RestController
 public class HospitalizationsLogController {
-    @Autowired
-    private HospitalizationsLogService hospitalizationsLogService;
+    @Autowired private HospitalizationsLogService hospitalizationsLogService;
 
+    //Salva uma internação
     @PostMapping("/HospitalizationsLogs")
     public ResponseEntity<HospitalizationsLogModel> saveHospitalizationsLog(@RequestBody @Valid HospitalizationsLogDTO hospitalizationsLogDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(hospitalizationsLogService.save(hospitalizationsLogDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.hospitalizationsLogService.save(hospitalizationsLogDTO));
     }
 
+    //Lista todas as internações
     @GetMapping("/hospitalizationsLogs")
     public ResponseEntity<List<HospitalizationsLogModel>> getAllhospitalizationsLogs() {
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLogService.listAll());
+        return ResponseEntity.status(HttpStatus.OK).body(this.hospitalizationsLogService.listAll());
     }
 
+    //Lista as intenações ativas.
     @GetMapping("/hospitalizationsActive")
     public ResponseEntity<Stream<HospitalizationActiveDTO>> getActiveHospitalizations() {
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLogService.listActiveHospitalizations());
+        return ResponseEntity.status(HttpStatus.OK).body(this.hospitalizationsLogService.listActiveHospitalizations());
     }
 
+    //Pega uma Internação
     @GetMapping("/hospitalizationsLogs/{cdHospitalizationsLog}")
     public ResponseEntity<Object> getOneHospitalizationsLog(@PathVariable(value="cdHospitalizationsLog") Long cdHospitalizationsLog) {
-        HospitalizationsLogModel hospitalizationsLog = hospitalizationsLogService.findById(cdHospitalizationsLog);
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLog);
+        return ResponseEntity.status(HttpStatus.OK).body(this.hospitalizationsLogService.findById(cdHospitalizationsLog));
     }
 
+    //Atualiza uma log de internação
     @PutMapping("/hospitalizationsLogs/{cdHospitalizationsLog}")
     public ResponseEntity<Object> updateHospitalizationsLog(@PathVariable(value="cdHospitalizationsLog") long cdHospitalizationsLog,
                                                @RequestBody @Valid HospitalizationsLogDTO hospitalizationsLogDTO) {
-        HospitalizationsLogModel hospitalizationsLog = hospitalizationsLogService.findById(cdHospitalizationsLog);
-        BeanUtils.copyProperties(hospitalizationsLogDTO, hospitalizationsLog);
-        return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLogService.update(hospitalizationsLog));
+        return ResponseEntity.status(HttpStatus.OK).body(this.hospitalizationsLogService.update(cdHospitalizationsLog, hospitalizationsLogDTO));
     }
 
+    //Deleta uma log de internação.
     @DeleteMapping("/hospitalizationsLogs/{cdHospitalizationsLog}")
     public ResponseEntity<Object> deleteHospitalizationsLog(@PathVariable(value="cdHospitalizationsLog") long cdHospitalizationsLog) {
-        HospitalizationsLogModel hospitalizationsLog = hospitalizationsLogService.findById(cdHospitalizationsLog);
-        hospitalizationsLogService.delete(hospitalizationsLog);
-        return ResponseEntity.status(HttpStatus.OK).body("HospitalizationsLog deletado com sucesso");
+        return this.hospitalizationsLogService.delete(cdHospitalizationsLog);
     }
 }

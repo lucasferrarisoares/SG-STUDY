@@ -70,3 +70,17 @@
     color: #333;
     font-size: 1em;
 }
+
+#roomspecialty {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+    background: #f4f8fb;
+    transition: border 0.2s;
+    appearance: none;
+    text-align: center;             
+    text-align-last: center;
+}
