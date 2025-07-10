@@ -1,6 +1,5 @@
 package com.example.springboot.room.service;
 
-import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hwing.repository.HWingRepository;

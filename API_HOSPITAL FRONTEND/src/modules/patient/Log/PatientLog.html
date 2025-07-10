@@ -1,0 +1,28 @@
+<div class="patient-history-container" ng-if="logs.length > 0">
+    <h2>Histórico de Internações</h2>
+
+    <ul>
+        <li ng-repeat="h in logs">
+            <div class="history-info">
+                <strong>Paciente:</strong> {{ h.ptName }}<br>
+                <strong>Especialidade:</strong> {{ h.deSpecialty }}<br>
+                <strong>Entrada:</strong> {{ h.dtHospitalization | date:'dd/MM/yyyy - HH:mm' }}<br>
+                <strong>Alta:</strong> {{ h.dtDischarge ? (h.dtDischarge | date:'dd/MM/yyyy - HH:mm') : 'Em andamento' }}
+            </div>
+        </li>
+    </ul>
+
+    <div class="pagination-controls">
+        <button ng-disabled="currentPage === 0" ng-click="previousPage()">Anterior</button>
+        <span>Página {{ currentPage + 1 }}</span>
+        <button ng-disabled="!hasNextPage" ng-click="nextPage()">Próxima</button>
+    </div>
+</div>
+
+<div class="patient-history-container" ng-if="logs.length === 0">
+    <h3>Nenhuma internação encontrada.</h3>
+</div>
+<hr>
+<div class="patient-log">
+    <button type="button" ng-click="voltar()">Voltar</button>
+</div>

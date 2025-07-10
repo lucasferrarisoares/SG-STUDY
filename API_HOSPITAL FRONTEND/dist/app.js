@@ -6,12 +6,15 @@ var HospitalController_1 = require("./modules/hospital/Edit/HospitalController")
 var PatientListController_1 = require("./modules/patient/List/PatientListController");
 var PatientController_1 = require("./modules/patient/Edit/PatientController");
 var PatientHospitalizationController_1 = require("./modules/patient/Hopitalization/PatientHospitalizationController");
+var PatientLog_1 = require("./modules/patient/Log/PatientLog");
 var hWingListController_1 = require("./modules/hwing/List/hWingListController");
 var hWingController_1 = require("./modules/hwing/Edit/hWingController");
 var BedListController_1 = require("./modules/bed/List/BedListController");
 var RoomListController_1 = require("./modules/room/List/RoomListController");
 var RoomController_1 = require("./modules/room/Edit/RoomController");
 var HomeController_1 = require("./home/HomeController");
+var BedLogController_1 = require("./modules/bed/Log/BedLogController");
+var BedController_1 = require("./modules/bed/Edit/BedController");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('HospitalListController', HospitalListController_1.default);
@@ -20,7 +23,10 @@ app.controller('hWingListController', hWingListController_1.default);
 app.controller('PatientListController', PatientListController_1.default);
 app.controller('PatientController', PatientController_1.default);
 app.controller('PatientHospitalizationController', PatientHospitalizationController_1.default);
+app.controller('PatientLogController', PatientLog_1.default);
 app.controller('BedListController', BedListController_1.default);
+app.controller('BedLogController', BedLogController_1.default);
+app.controller('BedController', BedController_1.default);
 app.controller('RoomListController', RoomListController_1.default);
 app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
@@ -50,6 +56,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/patient/Hopitalization/PatientHospitalization.html',
             controller: 'PatientHospitalizationController'
         })
+            .when('/patientlogs/:id', {
+            templateUrl: 'src/modules/patient/Log/PatientLog.html',
+            controller: 'PatientLogController'
+        })
             .when('/hwing', {
             templateUrl: 'src/modules/hwing/List/hWingList.html',
             controller: 'hWingListController'
@@ -62,6 +72,14 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/bed/List/BedList.html',
             controller: 'BedListController'
         })
+            .when('/bed/:id/editar', {
+            templateUrl: 'src/modules/bed/Edit/Bed.html',
+            controller: 'BedListController'
+        })
+            .when('/bed/:id/log', {
+            templateUrl: 'src/modules/bed/Log/BedLog.html',
+            controller: 'BedLogController'
+        })
             .when('/room', {
             templateUrl: 'src/modules/room/List/RoomList.html',
             controller: 'RoomListController'
@@ -69,10 +87,6 @@ app.config(['$routeProvider', function ($routeProvider) {
             .when('/room/:id/editar', {
             templateUrl: 'src/modules/room/Edit/Room.html',
             controller: 'RoomController'
-        })
-            .when('/logs', {
-            templateUrl: 'src/modules/logs/List/LogsList.html',
-            controller: 'LogsListController'
         })
             .otherwise({
             redirectTo: '/home'

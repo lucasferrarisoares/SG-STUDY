@@ -2,6 +2,7 @@ package com.example.springboot.bed.service;
 
 import com.example.springboot.bed.DTO.BedDTO;
 import com.example.springboot.bed.model.BedModel;
+import com.example.springboot.bed.projection.BedProjection;
 import com.example.springboot.bed.repository.BedRepository;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.room.service.RoomService;

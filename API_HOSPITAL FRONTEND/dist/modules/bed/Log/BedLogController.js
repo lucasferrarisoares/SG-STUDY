@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function BedController($scope, $routeParams, $http, $location) {
+function BedLogController($scope, $routeParams, $http, $location) {
     $scope.beds = [];
     $http.get("http://localhost:8080/bedsHistory/" + $routeParams.id)
         .then(function (response) {
@@ -10,4 +10,4 @@ function BedController($scope, $routeParams, $http, $location) {
         $location.path('/bed');
     };
 }
-exports.default = BedController;
+exports.default = BedLogController;

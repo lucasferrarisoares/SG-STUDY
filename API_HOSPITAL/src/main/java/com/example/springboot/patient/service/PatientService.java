@@ -1,9 +1,9 @@
 package com.example.springboot.patient.service;
 
+import com.example.springboot.patient.DTO.PageResponseDTO;
 import com.example.springboot.patient.projection.PatientHistoryProjection;
 import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.bed.service.BedService;
-import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.status.Status;
 import com.example.springboot.hospitalizationslog.DTO.HospitalizationsLogDTO;
 import com.example.springboot.hospitalizationslog.model.HospitalizationsLogModel;
@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import static com.example.springboot.enumerated.specialty.Specialty.fromcdSpecialty;
 
 import java.util.Date;
 import java.util.List;
@@ -76,7 +77,7 @@ public class PatientService {
     @Transactional(readOnly = true)
     public PatientHospitalizationDTO findPatientHospitalizationInfo(Long cdPatient) {
         PacientHospitalizationProjection projection = this.patientRepository.findPatientHospitalizationInfo(cdPatient);
-        return new PatientHospitalizationDTO(projection.getHpName(), Specialty.fromcdSpecialty(projection.getSpecialty()), projection.getHWingModel(), projection.getCdRoom(), projection.getPtName(), projection.getDtHospitalization());
+        return new PatientHospitalizationDTO(projection.getCdHospitalization() ,projection.getHpName(), fromcdSpecialty(projection.getSpecialty()), projection.getHWingModel(), projection.getCdRoom(), projection.getPtName(), projection.getDtHospitalization());
     }
 
     //Libera um paciente de sua internação
@@ -105,7 +106,7 @@ public class PatientService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não existem leitos disponíveis");
         }
         //Verifica se o paciente já não está internado.
-        if (this.verifyPatientInBed(cdPatient)) {
+        if (this.verifyHospitalizationByPatient(cdPatient)) {
             return ResponseEntity.status(HttpStatus.SEE_OTHER).body("Paciente já se encontra internado");
         }
 
@@ -115,7 +116,7 @@ public class PatientService {
         this.bedService.update(bed);
 
         //Cria a log de internação.
-        HospitalizationsLogDTO hospitalizationsLogDTO = new HospitalizationsLogDTO(Specialty.fromcdSpecialty(cdSpecialty), cdPatient, bed.getCdBed());
+        HospitalizationsLogDTO hospitalizationsLogDTO = new HospitalizationsLogDTO(fromcdSpecialty(cdSpecialty), cdPatient, bed.getCdBed());
 
         this.hospitalizationsLogService.save(hospitalizationsLogDTO);
         return ResponseEntity.status(HttpStatus.OK).body(hospitalizationsLogDTO);
@@ -123,18 +124,19 @@ public class PatientService {
 
     //Devolve se o paciente está ou não internado.
     @Transactional(readOnly = true)
-    public boolean verifyPatientInBed(Long cdPatient) {
-        return this.patientRepository.verifyFreeBed(cdPatient);
+    public boolean verifyHospitalizationByPatient(Long cdPatient) {
+        return this.patientRepository.verifyHospitalizationByPatient(cdPatient);
     }
 
     //Devolve o histórico de internação de um paciente de maneira paginada.
     @Transactional(readOnly = true)
-    public Page<PatientHistoryDTO> findHistoryHospitalization(Long cdPatient, Pageable pageable) {
+    public PageResponseDTO<PatientHistoryDTO> findHistoryHospitalization(Long cdPatient, Pageable pageable) {
         Page<PatientHistoryProjection> page = this.patientRepository.findHistoryHospitalization(cdPatient, pageable);
 
-        return page.map(projection -> new PatientHistoryDTO(
-                projection.getPtName(), projection.getDeSpecialty(),
-                projection.getDtHospitalization(), projection.getDtDischarge()
-        ));
+        List<PatientHistoryDTO> dtoList = page.getContent().stream()
+                .map(projection -> new PatientHistoryDTO(projection.getPtName(), projection.getDeSpecialty(),
+                        projection.getDtHospitalization(), projection.getDtDischarge())).toList();
+
+        return new PageResponseDTO<>(dtoList, page.getNumber(), page.getSize(), page.getTotalElements(), page.isLast());
     }
 }

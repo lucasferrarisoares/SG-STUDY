@@ -60,7 +60,6 @@ function RoomController($scope, $http, $location) {
             $scope.nuRoomDTO.totalRoom = $scope.nuRoomDTO.totalRoom;
         });
     };
-    // Busca quartos livres do endpoint correto
     $scope.listFreeRooms = function () {
         $http.get('http://localhost:8080/freerooms')
             .then(function (response) {

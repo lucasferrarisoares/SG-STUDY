@@ -36641,6 +36641,30 @@ function HomeController($scope, $location) {
 
 /***/ }),
 
+/***/ "./src/modules/bed/Edit/BedController.ts":
+/*!***********************************************!*\
+  !*** ./src/modules/bed/Edit/BedController.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = BedController;
+function BedController($scope, $routeParams, $http, $location) {
+    $scope.beds = [];
+    $http.get("http://localhost:8080/bedsHistory/" + $routeParams.id)
+        .then(function (response) {
+        $scope.beds = response.data;
+    });
+    $scope.voltar = function () {
+        $location.path('/bed');
+    };
+}
+
+
+/***/ }),
+
 /***/ "./src/modules/bed/List/BedListController.ts":
 /*!***************************************************!*\
   !*** ./src/modules/bed/List/BedListController.ts ***!
@@ -36651,21 +36675,95 @@ function HomeController($scope, $location) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = BedController;
-function BedController($scope, $location) {
+function BedController($scope, $location, $http) {
     $scope.beds = [];
-    $scope.newBed = { quarto: '', especialidade: '' };
+    $scope.specialties = [];
+    $scope.newBed = {};
     $scope.filtroEspecialidade = '';
-    $scope.addBed = function () {
-        if ($scope.newBed.quarto && $scope.newBed.especialidade) {
-            $scope.beds.push({
-                quarto: $scope.newBed.quarto,
-                especialidade: $scope.newBed.especialidade
+    $scope.listRooms = function () {
+        $http.get('http://localhost:8080/rooms')
+            .then(function (response) {
+            $scope.rooms = response.data;
+        });
+    };
+    $scope.listBeds = function () {
+        $http.get('http://localhost:8080/beds')
+            .then(function (response) {
+            $scope.beds = response.data;
+        });
+    };
+    $scope.listSpecialties = function () {
+        $http.get('http://localhost:8080/specialties')
+            .then(function (response) {
+            $scope.specialties = response.data;
+        });
+    };
+    $scope.addRoom = function () {
+        if ($scope.newBed.cdRoom && $scope.newBed.cdHospital) {
+            $http.post('http://localhost:8080/hwings', $scope.newBed)
+                .then(function () {
+                $scope.newBed = { cdRoom: '', cdHospital: '' };
+                $scope.listRooms();
             });
-            $scope.newBed = { quarto: '', especialidade: '' };
         }
     };
-    $scope.verHistorico = function (bed) {
-        $location.path('/bed-log/' + encodeURIComponent(bed.quarto));
+    $scope.listFreeBeds = function ($specialty) {
+        if ($specialty == null) {
+            console.log($specialty);
+            $scope.listBeds();
+            return;
+        }
+        $http.get('http://localhost:8080/bedsSpecialty/' + $specialty)
+            .then(function (response) {
+            console.log($specialty);
+            $scope.beds = response.data;
+        });
+    };
+    $scope.cleaningBed = function (cdBed) {
+        $http.put('http://localhost:8080/finishCleaning/' + cdBed)
+            .then(function () {
+            $scope.listBeds();
+        });
+    };
+    $scope.removeBed = function (cdRoom) {
+        $http.delete('http://localhost:8080/beds/' + cdRoom)
+            .then(function () {
+            $scope.listBeds();
+            $scope.getFreeBeds();
+        });
+    };
+    $scope.editBed = function (cdRoom) {
+        $location.path('/bed/' + cdRoom + '/editar');
+    };
+    $scope.listLogs = function (cdBed) {
+        $location.path('/bed/' + cdBed + '/log');
+    };
+    $scope.listBeds();
+    $scope.listRooms();
+    $scope.listSpecialties();
+}
+
+
+/***/ }),
+
+/***/ "./src/modules/bed/Log/BedLogController.ts":
+/*!*************************************************!*\
+  !*** ./src/modules/bed/Log/BedLogController.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = BedLogController;
+function BedLogController($scope, $routeParams, $http, $location) {
+    $scope.beds = [];
+    $http.get("http://localhost:8080/bedsHistory/" + $routeParams.id)
+        .then(function (response) {
+        $scope.beds = response.data;
+    });
+    $scope.voltar = function () {
+        $location.path('/bed');
     };
 }
 
@@ -36899,8 +36997,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = PatientHospitalizationController;
 function PatientHospitalizationController($scope, $http, $routeParams, $location) {
     $scope.patient = null;
+    $scope.hospitalizationDetails = null;
     $scope.specialties = [];
     $scope.cdSpecialty = '';
+    $scope.isHospitalized = false;
     // Buscar paciente
     $http.get('http://localhost:8080/patients/' + $routeParams.id)
         .then(function (response) {
@@ -36910,16 +37010,21 @@ function PatientHospitalizationController($scope, $http, $routeParams, $location
         $http.get('http://localhost:8080/specialties')
             .then(function (response) {
             $scope.specialties = response.data;
-            console.log(response.data);
+        });
+    };
+    $scope.getHospitalizationDetails = function (cdPatient) {
+        $http.get('http://localhost:8080/patientsHospitalization/' + cdPatient)
+            .then(function (response) {
+            $scope.hospitalizationDetails = response.data;
         });
     };
     $scope.changeSpecialty = function (cdSpecialty) {
         $scope.cdSpecialty = cdSpecialty;
     };
-    $scope.hospitalization = function () {
+    $scope.hospitalizationPatient = function () {
         $scope.errorMessage = '';
-        console.log('cdSpecialty:', $scope.cdSpecialty);
-        $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty, {})
+        console.log('Internando paciente:', $scope.patient.cdPatient, 'Especialidade:', $scope.cdSpecialty);
+        $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty)
             .then(function () {
             $location.path('/patient');
         }, function (error) {
@@ -36931,10 +37036,10 @@ function PatientHospitalizationController($scope, $http, $routeParams, $location
             }
         });
     };
-    $scope.internar = function () {
+    $scope.releasePatient = function () {
         $scope.errorMessage = '';
-        console.log('cdSpecialty:', $scope.cdSpecialty);
-        $http.post('http://localhost:8080/hospitalizations/' + $scope.patient.cdPatient + '/' + $scope.cdSpecialty, {})
+        console.log($scope.hospitalizationDetails.cdHospitalization);
+        $http.put('http://localhost:8080/releasePatient/' + $scope.hospitalizationDetails.cdHospitalization)
             .then(function () {
             $location.path('/patient');
         }, function (error) {
@@ -36942,14 +37047,27 @@ function PatientHospitalizationController($scope, $http, $routeParams, $location
                 $scope.errorMessage = error.data;
             }
             else {
-                $scope.errorMessage = 'Erro ao internar paciente!';
+                $scope.errorMessage = 'Erro ao dar alta para o paciente!';
+            }
+        });
+    };
+    $scope.checkHospitalization = function () {
+        $http.get('http://localhost:8080/verifyHospitalizationByPatient/' + $routeParams.id)
+            .then(function (response) {
+            $scope.isHospitalized = response.data;
+            if ($scope.isHospitalized) {
+                $scope.getHospitalizationDetails($routeParams.id);
             }
         });
     };
     $scope.voltar = function () {
         $location.path('/patient');
     };
+    $scope.goToLog = function () {
+        $location.path('/patientlogs/' + $routeParams.id);
+    };
     $scope.listSpecialties();
+    $scope.checkHospitalization();
 }
 
 
@@ -36996,6 +37114,55 @@ function PatientListController($scope, $http, $location) {
         $location.path('/patients/' + cdPatient + '/internar');
     };
     $scope.listPatients();
+}
+
+
+/***/ }),
+
+/***/ "./src/modules/patient/Log/PatientLog.ts":
+/*!***********************************************!*\
+  !*** ./src/modules/patient/Log/PatientLog.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = PatientLogController;
+function PatientLogController($scope, $http, $routeParams, $location) {
+    $scope.patient = null;
+    $scope.logs = [];
+    $scope.currentPage = 0;
+    $scope.pageSize = 5;
+    $scope.hasNextPage = false;
+    // Buscar paciente
+    $http.get('http://localhost:8080/patients/' + $routeParams.id)
+        .then(function (response) {
+        $scope.patient = response.data;
+    });
+    $scope.listLogs = function () {
+        $http.get("http://localhost:8080/historicHospitalization/".concat($routeParams.id, "?page=").concat($scope.currentPage, "&size=").concat($scope.pageSize))
+            .then(function (response) {
+            $scope.logs = response.data.content;
+            $scope.hasNextPage = !response.data.last;
+        });
+    };
+    $scope.nextPage = function () {
+        if ($scope.hasNextPage) {
+            $scope.currentPage++;
+            $scope.listLogs();
+        }
+    };
+    $scope.previousPage = function () {
+        if ($scope.currentPage > 0) {
+            $scope.currentPage--;
+            $scope.listLogs();
+        }
+    };
+    $scope.voltar = function () {
+        $location.path('/patients/' + $routeParams.id + '/internar');
+    };
+    $scope.listLogs();
 }
 
 
@@ -37113,7 +37280,6 @@ function RoomController($scope, $http, $location) {
             $scope.nuRoomDTO.totalRoom = $scope.nuRoomDTO.totalRoom;
         });
     };
-    // Busca quartos livres do endpoint correto
     $scope.listFreeRooms = function () {
         $http.get('http://localhost:8080/freerooms')
             .then(function (response) {
@@ -37171,12 +37337,15 @@ var HospitalController_1 = __webpack_require__(/*! ./modules/hospital/Edit/Hospi
 var PatientListController_1 = __webpack_require__(/*! ./modules/patient/List/PatientListController */ "./src/modules/patient/List/PatientListController.ts");
 var PatientController_1 = __webpack_require__(/*! ./modules/patient/Edit/PatientController */ "./src/modules/patient/Edit/PatientController.ts");
 var PatientHospitalizationController_1 = __webpack_require__(/*! ./modules/patient/Hopitalization/PatientHospitalizationController */ "./src/modules/patient/Hopitalization/PatientHospitalizationController.ts");
+var PatientLog_1 = __webpack_require__(/*! ./modules/patient/Log/PatientLog */ "./src/modules/patient/Log/PatientLog.ts");
 var hWingListController_1 = __webpack_require__(/*! ./modules/hwing/List/hWingListController */ "./src/modules/hwing/List/hWingListController.ts");
 var hWingController_1 = __webpack_require__(/*! ./modules/hwing/Edit/hWingController */ "./src/modules/hwing/Edit/hWingController.ts");
 var BedListController_1 = __webpack_require__(/*! ./modules/bed/List/BedListController */ "./src/modules/bed/List/BedListController.ts");
 var RoomListController_1 = __webpack_require__(/*! ./modules/room/List/RoomListController */ "./src/modules/room/List/RoomListController.ts");
 var RoomController_1 = __webpack_require__(/*! ./modules/room/Edit/RoomController */ "./src/modules/room/Edit/RoomController.ts");
 var HomeController_1 = __webpack_require__(/*! ./home/HomeController */ "./src/home/HomeController.ts");
+var BedLogController_1 = __webpack_require__(/*! ./modules/bed/Log/BedLogController */ "./src/modules/bed/Log/BedLogController.ts");
+var BedController_1 = __webpack_require__(/*! ./modules/bed/Edit/BedController */ "./src/modules/bed/Edit/BedController.ts");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('HospitalListController', HospitalListController_1.default);
@@ -37185,7 +37354,10 @@ app.controller('hWingListController', hWingListController_1.default);
 app.controller('PatientListController', PatientListController_1.default);
 app.controller('PatientController', PatientController_1.default);
 app.controller('PatientHospitalizationController', PatientHospitalizationController_1.default);
+app.controller('PatientLogController', PatientLog_1.default);
 app.controller('BedListController', BedListController_1.default);
+app.controller('BedLogController', BedLogController_1.default);
+app.controller('BedController', BedController_1.default);
 app.controller('RoomListController', RoomListController_1.default);
 app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
@@ -37215,6 +37387,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/patient/Hopitalization/PatientHospitalization.html',
             controller: 'PatientHospitalizationController'
         })
+            .when('/patientlogs/:id', {
+            templateUrl: 'src/modules/patient/Log/PatientLog.html',
+            controller: 'PatientLogController'
+        })
             .when('/hwing', {
             templateUrl: 'src/modules/hwing/List/hWingList.html',
             controller: 'hWingListController'
@@ -37227,6 +37403,14 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/bed/List/BedList.html',
             controller: 'BedListController'
         })
+            .when('/bed/:id/editar', {
+            templateUrl: 'src/modules/bed/Edit/Bed.html',
+            controller: 'BedListController'
+        })
+            .when('/bed/:id/log', {
+            templateUrl: 'src/modules/bed/Log/BedLog.html',
+            controller: 'BedLogController'
+        })
             .when('/room', {
             templateUrl: 'src/modules/room/List/RoomList.html',
             controller: 'RoomListController'
@@ -37234,10 +37418,6 @@ app.config(['$routeProvider', function ($routeProvider) {
             .when('/room/:id/editar', {
             templateUrl: 'src/modules/room/Edit/Room.html',
             controller: 'RoomController'
-        })
-            .when('/logs', {
-            templateUrl: 'src/modules/logs/List/LogsList.html',
-            controller: 'LogsListController'
         })
             .otherwise({
             redirectTo: '/home'

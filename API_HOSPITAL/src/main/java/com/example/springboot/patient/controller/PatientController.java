@@ -69,7 +69,13 @@ public class PatientController {
 
     //Da alta para um paciente.
     @PutMapping("/releasePatient/{cdHospitalization}")
-    public ResponseEntity<Object>  releasePatient(@PathVariable(value="cdPatient") Long cdHospitalization) {
+    public ResponseEntity<Object>  releasePatient(@PathVariable(value="cdHospitalization") Long cdHospitalization) {
         return ResponseEntity.status(HttpStatus.OK).body(this.patientService.releasePatient(cdHospitalization));
+    }
+
+    //Verifica se um paciente está internado
+    @GetMapping("/verifyHospitalizationByPatient/{cdPatient}")
+    public ResponseEntity<Boolean> verifyHospitalizationByPatient(@PathVariable(value="cdPatient") Long cdPatient) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.patientService.verifyHospitalizationByPatient(cdPatient));
     }
 }
