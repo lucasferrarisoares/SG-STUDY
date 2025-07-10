@@ -43,7 +43,7 @@ app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) 
       templateUrl: 'src/modules/hospital/List/HospitalList.html',
       controller: 'HospitalListController'
     })
-    .when('/hospitais/:id/editar', {
+    .when('/hospital/:id/editar', {
       templateUrl: 'src/modules/hospital/Edit/Hospital.html',
       controller: 'HospitalController'
     })
@@ -55,7 +55,7 @@ app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) 
       templateUrl: 'src/modules/patient/Edit/Patient.html',
       controller: 'PatientController'
     })
-    .when('/patients/:id/internar', {
+    .when('/patient/:id/internar', {
       templateUrl: 'src/modules/patient/Hopitalization/PatientHospitalization.html',
       controller: 'PatientHospitalizationController'
     })

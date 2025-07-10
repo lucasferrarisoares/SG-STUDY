@@ -27,7 +27,7 @@ export default function HospitalListController($scope: any, $http: any, $locatio
   };
 
   $scope.editHospital = function(cdHospital: number) {
-    $location.path('/hospitais/' + cdHospital + '/editar');
+    $location.path('/hospital/' + cdHospital + '/editar');
   };
 
   $scope.listHospitais();
