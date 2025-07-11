@@ -15,6 +15,7 @@ import RoomController from './modules/room/Edit/RoomController';
 import HomeController from './home/HomeController';
 import BedLogController from './modules/bed/Log/BedLogController';
 import BedController from './modules/bed/Edit/BedController';
+import HospitalizationListController from './modules/hospitalization/List/HospitalizationListController';
 
 const app = angular.module('meuApp', ['ngRoute']);
 
@@ -32,6 +33,7 @@ app.controller('BedController', BedController);
 app.controller('RoomListController', RoomListController);
 app.controller('RoomController', RoomController);
 app.controller('HomeController', HomeController);
+app.controller('HospitalizationListController', HospitalizationListController);
 
 app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) {
   $routeProvider
@@ -90,6 +92,10 @@ app.config(['$routeProvider', function($routeProvider: ng.route.IRouteProvider) 
     .when('/room/:id/editar', {
       templateUrl: 'src/modules/room/Edit/Room.html',
       controller: 'RoomController'
+    })
+    .when('/hospitalization', {
+      templateUrl: 'src/modules/hospitalization/List/HospitalizationList.html',
+      controller: 'HospitalizationListController'
     })
     .otherwise({
       redirectTo: '/home'

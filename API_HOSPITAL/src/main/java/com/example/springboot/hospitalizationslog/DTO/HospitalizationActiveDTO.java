@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.rsocket.RSocketProperties;
 
 import java.util.Date;
 
-public record HospitalizationActiveDTO(@NotBlank String dePatient, @NotNull Specialty specialty,
-                                       @NotNull Date dtHospitalization, @NotNull Integer nuHospitalization) {
+public record HospitalizationActiveDTO(@NotNull Long cdPatient, @NotBlank String dePatient, @NotNull Specialty specialty,
+                                       @NotBlank String dtHospitalization, @NotNull Integer nuHospitalization) {
 }

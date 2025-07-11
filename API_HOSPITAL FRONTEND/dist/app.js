@@ -15,6 +15,7 @@ var RoomController_1 = require("./modules/room/Edit/RoomController");
 var HomeController_1 = require("./home/HomeController");
 var BedLogController_1 = require("./modules/bed/Log/BedLogController");
 var BedController_1 = require("./modules/bed/Edit/BedController");
+var HospitalizationListController_1 = require("./modules/hospitalization/List/HospitalizationListController");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('HospitalListController', HospitalListController_1.default);
@@ -30,6 +31,7 @@ app.controller('BedController', BedController_1.default);
 app.controller('RoomListController', RoomListController_1.default);
 app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
+app.controller('HospitalizationListController', HospitalizationListController_1.default);
 app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/home', {
@@ -40,7 +42,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/hospital/List/HospitalList.html',
             controller: 'HospitalListController'
         })
-            .when('/hospitais/:id/editar', {
+            .when('/hospital/:id/editar', {
             templateUrl: 'src/modules/hospital/Edit/Hospital.html',
             controller: 'HospitalController'
         })
@@ -52,7 +54,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/patient/Edit/Patient.html',
             controller: 'PatientController'
         })
-            .when('/patients/:id/internar', {
+            .when('/patient/:id/internar', {
             templateUrl: 'src/modules/patient/Hopitalization/PatientHospitalization.html',
             controller: 'PatientHospitalizationController'
         })
@@ -87,6 +89,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             .when('/room/:id/editar', {
             templateUrl: 'src/modules/room/Edit/Room.html',
             controller: 'RoomController'
+        })
+            .when('/hospitalization', {
+            templateUrl: 'src/modules/hospitalization/List/HospitalizationList.html',
+            controller: 'HospitalizationListController'
         })
             .otherwise({
             redirectTo: '/home'

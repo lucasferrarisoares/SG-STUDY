@@ -9,7 +9,6 @@ export default function BedController($scope: any, $routeParams: any, $http: any
     $scope.voltar = function() {
         $location.path('/bed');
     };
-
 }
 
  

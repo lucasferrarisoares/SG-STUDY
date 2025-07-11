@@ -28,7 +28,7 @@ function PatientListController($scope, $http, $location) {
         $location.path('/patient/' + cdPatient + '/editar');
     };
     $scope.hospitalization = function (cdPatient) {
-        $location.path('/patients/' + cdPatient + '/internar');
+        $location.path('/patient/' + cdPatient + '/internar');
     };
     $scope.listPatients();
 }
