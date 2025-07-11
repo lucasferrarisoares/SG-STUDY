@@ -1,0 +1,79 @@
+.patient-history-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 32px 28px;
+    text-align: center;
+}
+
+.patient-history-container h2, .patient-history-container h3 {
+    color: #1976d2;
+    margin-top: 0;
+}
+
+.patient-history-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.patient-history-container li {
+    background: #f4f8fb;
+    padding: 12px;
+    border-radius: 4px;
+    color: #333;
+    font-size: 1em;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 8px;
+}
+
+.patient-history-container li:last-child {
+    border-bottom: none;
+}
+
+.history-info {
+    line-height: 1.5;
+}
+
+.pagination-controls {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.pagination-controls button {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.pagination-controls button:disabled {
+    background-color: #90caf9;
+    cursor: not-allowed;
+}
+
+.patient-log button[type="button"] {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.patient-log button[type="button"]:hover {
+    background-color: #1565c0;
+}

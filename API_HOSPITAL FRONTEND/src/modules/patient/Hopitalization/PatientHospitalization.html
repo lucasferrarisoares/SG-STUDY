@@ -1,16 +1,30 @@
 <div class="patient-hospitalization-container" ng-if="patient">
-    <h2>Internar Paciente</h2>
+
     <p><strong>Nome:</strong> {{ patient.dePatient }}</p>
 
-    <form ng-submit="internar()">
-        <label for="specialty">Especialidade para internação:</label>
-        <select id="specialty" ng-change="changeSpecialty(cdSpecialty)" required>
+    <form>
+        <label ng-if="!isHospitalized" for="specialty">Especialidade para internação:</label>
+        <select ng-if="!isHospitalized" id="specialty" ng-model="cdSpecialty" ng-change="changeSpecialty(cdSpecialty)" required>
             <option value="" disabled selected>Selecione</option>
             <option ng-repeat="esp in specialties" value="{{esp.cdSpecialty}}">{{esp.deName}}</option>
         </select>
-        <p>Selecionado: {{cdSpecialty}}</p>
+        
         <div ng-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-        <button type="submit">Confirmar Internação</button>
+        
+        <div class="internacao-info" ng-if="isHospitalized && hospitalizationDetails">
+            <hr>
+            <h3>Informações da Internação</h3>
+            <p><strong>Hospital:</strong> {{ hospitalizationDetails.hpName }}</p>
+            <p><strong>Especialidade:</strong> {{ hospitalizationDetails.specialty }}</p>
+            <p><strong>Ala:</strong> {{ hospitalizationDetails.cdHwing }}</p>
+            <p><strong>Quarto:</strong> {{ hospitalizationDetails.cdRoom }}</p>
+            <p><strong>Data de Internação:</strong> {{ hospitalizationDetails.dtHospitalization }}</p>
+            <hr>
+        </div>
+
+        <button type="submit" ng-if="!isHospitalized" ng-click="hospitalizationPatient()">Internar</button>
+        <button type="submit" ng-if="isHospitalized" ng-click="releasePatient()">Desinternar</button>
+        <button type="button" ng-click="goToLog()">Visualizar log</button>
         <button type="button" ng-click="voltar()">Cancelar</button>
     </form>
 </div>

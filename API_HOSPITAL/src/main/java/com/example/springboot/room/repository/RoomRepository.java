@@ -1,6 +1,5 @@
 package com.example.springboot.room.repository;
 
-import com.example.springboot.room.DTO.RoomSpecialtyDTO;
 import com.example.springboot.room.model.RoomModel;
 import com.example.springboot.room.projection.RoomProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +14,7 @@ public interface RoomRepository extends JpaRepository<RoomModel, Long> {
 
     @Query(nativeQuery = true,
             value ="select  " +
+                    "R.cd_room as cdRoom,   " +
                     "R.de_code as deCode,    " +
                     "H.de_specialty as cdSpecialty     " +
                     "from ceh_room R    " +

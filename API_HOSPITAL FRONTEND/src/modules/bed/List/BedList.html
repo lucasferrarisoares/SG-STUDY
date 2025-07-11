@@ -1,27 +1,36 @@
 <div class="bed-container">
     <h2>Cadastro de Leitos</h2>
     <form ng-submit="addBed()">
-        <label for="quarto">Quarto:</label>
-        <input type="text" id="quarto" ng-model="newBed.quarto" required>
-
-        <label for="especialidade">Especialidade:</label>
-        <input type="text" id="especialidade" ng-model="newBed.especialidade" required>
-
+        <label for="hospital">Quarto:</label>
+            <select id="hospital" ng-model="newBed.cdRoom" required>
+                <option value="" disabled selected>Selecione</option>
+                <option ng-repeat="room in rooms" value="{{room.cdRoom}}">{{room.deCodigo}}</option>
+            </select>
+        <label for="nuBed">Código de cama:</label>
+        <input id="nuBed" ng-model="newBed.deCode" required>
         <button type="submit">Cadastrar</button>
     </form>
 
     <hr>
 
-    <h3>Filtrar por Especialidade</h3>
-    <input type="text" ng-model="filtroEspecialidade" placeholder="Digite a especialidade">
+    <h3>Leitos livres por Especialidade</h3>
+        <select id="roomspecialty" ng-model="specialty" ng-change="listFreeBeds(specialty)" required>
+            <option value="">Todos os leitos</option>
+            <option ng-repeat="esp in specialties" ng-value="esp.cdSpecialty">{{esp.deName}}</option>
+        </select>
 
     <hr>
 
     <h3>Lista de Leitos</h3>
     <ul>
-        <li ng-repeat="bed in beds | filter:{especialidade: filtroEspecialidade}">
-            Quarto: {{ bed.quarto }} | Especialidade: {{ bed.especialidade }}
-            <button ng-click="verHistorico(bed)">Histórico de internação</button>
+        <li ng-repeat="bed in beds">
+            Quarto: {{ bed.deCode }} | Status: {{ bed.cdStatus }}
+            <div>
+                <button ng-click="editBed(bed.cdBed)">Editar</button>
+                <button ng-click="removeBed(bed.cdBed)">Remover</button>
+                <button ng-click="listLogs(bed.cdBed)">Historico</button>
+                <button ng-if="bed.cdStatus === 'CLEANING'" ng-click="cleaningBed(bed.cdBed)">Limpar Leito</button>
+            </div>
         </li>
     </ul>
 </div>

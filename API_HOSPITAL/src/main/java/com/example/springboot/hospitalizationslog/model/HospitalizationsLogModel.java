@@ -3,7 +3,6 @@ package com.example.springboot.hospitalizationslog.model;
 import com.example.springboot.bed.model.BedModel;
 import com.example.springboot.enumerated.specialty.Specialty;
 import com.example.springboot.enumerated.specialty.SpecialtyConverter;
-import com.example.springboot.hwing.model.HWingModel;
 import com.example.springboot.patient.model.PatientModel;
 import jakarta.persistence.*;
 import lombok.Getter;

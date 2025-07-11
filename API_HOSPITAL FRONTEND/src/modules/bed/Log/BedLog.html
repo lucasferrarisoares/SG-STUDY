@@ -1,0 +1,16 @@
+<div class="bed-log-container" ng-if="beds">
+    <hr>
+    <h2>Histórico de Internação</h2>
+    <ul>
+        <li ng-repeat="bed in beds">
+            <div class="bed-log-info">
+                <strong>Cama:</strong> {{ bed.cdBed }} <br>
+                <strong>Paciente:</strong> {{ bed.dePatient }} <br>
+                <strong>Entrada:</strong> {{ bed.dtHospitalization }} <br>
+                <strong>Alta:</strong> {{ bed.dtDischarge || 'Em andamento' }}
+            </div>
+        </li>
+    </ul>
+    <hr>
+    <button type="button" ng-click="voltar()">Voltar</button>
+</div>

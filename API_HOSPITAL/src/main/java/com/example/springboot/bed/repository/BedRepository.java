@@ -27,19 +27,22 @@ public interface BedRepository extends JpaRepository<BedModel, Long> {
             value = "SELECT L.* FROM CEH_LEITO L " +
                     "JOIN CEH_ROOM R ON L.CD_ROOM = R.CD_ROOM " +
                     "JOIN CEH_HWING W ON R.CD_HWING = W.CD_HWING " +
-                    "WHERE L.DE_STATUS = 0  AND W.DE_SPECIALTY = :cdSpecialty")
+                    "WHERE L.DE_STATUS = 0  AND W.DE_SPECIALTY = :cdSpecialty       " +
+                    "ORDER BY L.CD_BED")
     List<BedModel> findBySpecialty(@Param("cdSpecialty") Integer cdSpecialty);
 
     @Query(nativeQuery = true,
             value = "select     " +
                         "HL.CD_BED as cdBed,     " +
                         "P.de_patient as dePatient,     " +
-                        "HL.dt_hospitalization  as dtHospitalization,     " +
-                        "HL.dt_discharge  as dtDischarge     " +
+                        "TO_CHAR(HL.dt_hospitalization, 'DD/MM/YYYY - HH24:MI') AS dtHospitalization, " +
+                        "TO_CHAR(HL.dt_discharge, 'DD/MM/YYYY - HH24:MI') AS dtDischarge " +
                     "from ceh_hospitalizationslog HL      " +
                     "join ceh_patient P on      " +
                         "P.cd_patient = HL.cd_patiente     " +
                     "where     " +
-                        "HL.cd_BED = :cdBed")
+                        "HL.cd_BED = :cdBed     " +
+                    "order      " +
+                        "by HL.dt_hospitalization desc")
     List<BedProjection> findHospitalizationLogByBed(@Param("cdBed") Long cdBed);
 }

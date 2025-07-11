@@ -16,7 +16,7 @@ public interface PatientRepository extends JpaRepository<PatientModel, Long> {
     @Query (nativeQuery = true,
     value = "SELECT EXISTS ( " +
         "SELECT 1 FROM CEH_LEITO WHERE CD_PATIENT = :cdPatient) ")
-    boolean verifyFreeBed(Long cdPatient);
+    boolean verifyHospitalizationByPatient(Long cdPatient);
 
     @Query(nativeQuery = true,
             value=
@@ -29,18 +29,20 @@ public interface PatientRepository extends JpaRepository<PatientModel, Long> {
                             "   CEH_HOSPITALIZATIONSLOG HP " +
                             "JOIN CEH_PATIENT P ON P.CD_PATIENT = HP.CD_PATIENTE " +
                             "WHERE" +
-                            "   HP.CD_PATIENTE = :cdPatient")
+                            "   HP.CD_PATIENTE = :cdPatient " +
+                            "   ORDER BY HP.DT_HOSPITALIZATION DESC ")
     Page<PatientHistoryProjection> findHistoryHospitalization(@Param("cdPatient") Long cdPatient, Pageable pageable);
 
     @Query(nativeQuery = true,
             value=
                 "select" +
+                "   ch3.cd_hospitalizationslog as cdHospitalization, " +
                 "   CH2.de_hospital as hpName, " +
                 "   CH.cd_hwing as hWingModel, " +
                 "   CH.de_specialty as specialty, " +
                 "   CR.cd_room as cdRoom, " +
                 "   CP.de_patient as ptName,  " +
-                "   ch3.dt_hospitalization as dtHospitalization " +
+                "   TO_CHAR(ch3.dt_hospitalization, 'DD/MM/YYYY - HH24:MI')  as dtHospitalization " +
                 "from" +
                 "   ceh_patient cp " +
                 "join ceh_leito cl on " +

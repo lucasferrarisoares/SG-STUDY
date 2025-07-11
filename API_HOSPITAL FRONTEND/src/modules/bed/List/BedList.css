@@ -12,7 +12,12 @@
     color: #1976d2;
     margin-top: 0;
 }
-
+.bed-container select {
+    padding: 8px;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    font-size: 1em;
+}
 .bed-container form {
     display: flex;
     flex-direction: column;
@@ -56,12 +61,6 @@
     border-top: 1px solid #e0e0e0;
 }
 
-.bed-container ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 16px;
-}
-
 .bed-container li {
     background: #f4f8fb;
     margin-bottom: 8px;
@@ -72,4 +71,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.bed-container ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 16px;
+}
+
+.bed-container button {
+    background-color: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
 }
