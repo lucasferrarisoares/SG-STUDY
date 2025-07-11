@@ -36837,9 +36837,33 @@ function HospitalListController($scope, $http, $location) {
         });
     };
     $scope.editHospital = function (cdHospital) {
-        $location.path('/hospitais/' + cdHospital + '/editar');
+        $location.path('/hospital/' + cdHospital + '/editar');
     };
     $scope.listHospitais();
+}
+
+
+/***/ }),
+
+/***/ "./src/modules/hospitalization/List/HospitalizationListController.ts":
+/*!***************************************************************************!*\
+  !*** ./src/modules/hospitalization/List/HospitalizationListController.ts ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = HospitalizationListController;
+function HospitalizationListController($scope, $http, $location) {
+    $scope.hospitalizationsList = [];
+    $http.get("http://localhost:8080/hospitalizationsActive")
+        .then(function (response) {
+        $scope.hospitalizationsList = response.data;
+    });
+    $scope.voltar = function () {
+        $location.path('/home');
+    };
 }
 
 
@@ -37111,7 +37135,7 @@ function PatientListController($scope, $http, $location) {
         $location.path('/patient/' + cdPatient + '/editar');
     };
     $scope.hospitalization = function (cdPatient) {
-        $location.path('/patients/' + cdPatient + '/internar');
+        $location.path('/patient/' + cdPatient + '/internar');
     };
     $scope.listPatients();
 }
@@ -37346,6 +37370,7 @@ var RoomController_1 = __webpack_require__(/*! ./modules/room/Edit/RoomControlle
 var HomeController_1 = __webpack_require__(/*! ./home/HomeController */ "./src/home/HomeController.ts");
 var BedLogController_1 = __webpack_require__(/*! ./modules/bed/Log/BedLogController */ "./src/modules/bed/Log/BedLogController.ts");
 var BedController_1 = __webpack_require__(/*! ./modules/bed/Edit/BedController */ "./src/modules/bed/Edit/BedController.ts");
+var HospitalizationListController_1 = __webpack_require__(/*! ./modules/hospitalization/List/HospitalizationListController */ "./src/modules/hospitalization/List/HospitalizationListController.ts");
 var app = angular.module('meuApp', ['ngRoute']);
 app.controller('HospitalController', HospitalController_1.default);
 app.controller('HospitalListController', HospitalListController_1.default);
@@ -37361,6 +37386,7 @@ app.controller('BedController', BedController_1.default);
 app.controller('RoomListController', RoomListController_1.default);
 app.controller('RoomController', RoomController_1.default);
 app.controller('HomeController', HomeController_1.default);
+app.controller('HospitalizationListController', HospitalizationListController_1.default);
 app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/home', {
@@ -37371,7 +37397,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/hospital/List/HospitalList.html',
             controller: 'HospitalListController'
         })
-            .when('/hospitais/:id/editar', {
+            .when('/hospital/:id/editar', {
             templateUrl: 'src/modules/hospital/Edit/Hospital.html',
             controller: 'HospitalController'
         })
@@ -37383,7 +37409,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'src/modules/patient/Edit/Patient.html',
             controller: 'PatientController'
         })
-            .when('/patients/:id/internar', {
+            .when('/patient/:id/internar', {
             templateUrl: 'src/modules/patient/Hopitalization/PatientHospitalization.html',
             controller: 'PatientHospitalizationController'
         })
@@ -37418,6 +37444,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             .when('/room/:id/editar', {
             templateUrl: 'src/modules/room/Edit/Room.html',
             controller: 'RoomController'
+        })
+            .when('/hospitalization', {
+            templateUrl: 'src/modules/hospitalization/List/HospitalizationList.html',
+            controller: 'HospitalizationListController'
         })
             .otherwise({
             redirectTo: '/home'

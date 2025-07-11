@@ -1,10 +1,13 @@
 package com.example.springboot.hospitalizationslog.projection;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.Date;
 
 public interface HospitalizationProjection {
+    Long getCdPatient();
     String getDePatient();
     Integer getCdSpecialty();
-    Date getDtHospitalization();
+    String getDtHospitalization();
     Integer getNuHospitalization();
 }

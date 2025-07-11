@@ -85,7 +85,7 @@ public class HospitalizationsLogService {
         List<HospitalizationProjection> list = this.hospitalizationsLogRepository.listActiveHospitalizations();
 
         return list.stream().map(projection -> new HospitalizationActiveDTO(
-                projection.getDePatient(), Specialty.fromcdSpecialty(projection.getCdSpecialty()),
+                projection.getCdPatient(), projection.getDePatient(), Specialty.fromcdSpecialty(projection.getCdSpecialty()),
                 projection.getDtHospitalization(), projection.getNuHospitalization()));
     }
 }

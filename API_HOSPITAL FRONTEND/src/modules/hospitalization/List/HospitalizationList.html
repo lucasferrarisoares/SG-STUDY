@@ -1,0 +1,16 @@
+<div class="hospitalization-log-container" ng-if="hospitalizationsList">
+    <hr>
+    <h2>Histórico de Internação</h2>
+    <ul>
+        <li ng-repeat="hospitalization in hospitalizationsList">
+            <div class="hospitalization-log-info">
+                <strong>Paciente:</strong> {{ hospitalization.dePatient }} <br>
+                <strong>Especialidade:</strong> {{ hospitalization.specialty }} <br>
+                <strong>Entrada:</strong> {{ hospitalization.dtHospitalization }} <br>
+                <strong>Dias Internados:</strong> {{ hospitalization.nuHospitalization }} <br>
+            </div>
+        </li>
+    </ul>
+    <hr>
+    <button type="button" ng-click="voltar()">Voltar</button>
+</div>

@@ -19,19 +19,18 @@ public interface HospitalizationsLogRepository extends JpaRepository<Hospitaliza
 
     @Query(nativeQuery = true, value =
             "select       " +
+                    "P.cd_patient as cdPatient,     " +
                     "P.de_patient as dePatient ,      " +
-                    "W.DE_SPECIALTY as cdSpecialty,      " +
-                    "HH.DT_HOSPITALIZATION as dtHospitalization,      " +
-                    "(CURRENT_DATE - HH.DT_HOSPITALIZATION)      " +
+                    "HH.DE_SPECIALTY as cdSpecialty,      " +
+                    "TO_CHAR(HH.DT_HOSPITALIZATION, 'DD/MM/YYYY - HH24:MI')as dtHospitalization,      " +
+                    "EXTRACT(DAY FROM CURRENT_DATE - HH.DT_HOSPITALIZATION) AS nuHospitalization     " +
                     "from      " +
                     "ceh_hospitalizationslog HH      " +
                     "join       " +
                     "ceh_patient P on P.cd_patient = HH.cd_patiente      " +
-                    "join      " +
-                    "ceh_hwing W on W.cd_hwing = HH.cd_hwing       " +
                     "where      " +
                     "HH.dt_discharge is null       " +
                     "order by      " +
-                    "w.de_specialty, p.de_patient      ")
+                    "hh.de_specialty, p.de_patient      ")
     List<HospitalizationProjection> listActiveHospitalizations();
 }

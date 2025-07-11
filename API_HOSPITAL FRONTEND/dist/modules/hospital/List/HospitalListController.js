@@ -25,7 +25,7 @@ function HospitalListController($scope, $http, $location) {
         });
     };
     $scope.editHospital = function (cdHospital) {
-        $location.path('/hospitais/' + cdHospital + '/editar');
+        $location.path('/hospital/' + cdHospital + '/editar');
     };
     $scope.listHospitais();
 }
