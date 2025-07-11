@@ -45,4 +45,9 @@ public interface BedRepository extends JpaRepository<BedModel, Long> {
                     "order      " +
                         "by HL.dt_hospitalization desc")
     List<BedProjection> findHospitalizationLogByBed(@Param("cdBed") Long cdBed);
+
+    @Query(nativeQuery = true,
+          value = "SELECT L.* FROM CEH_LEITO L      " +
+                    "ORDER BY L.DE_CODE, L.CD_BED        ")
+    List<BedModel> findAllFiltered();
 }

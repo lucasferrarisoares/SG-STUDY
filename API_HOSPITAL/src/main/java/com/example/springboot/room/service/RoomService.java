@@ -94,10 +94,10 @@ public class RoomService {
     @Transactional(readOnly = true)
     public void verifyRoomIsFree(RoomModel room) {
         if (this.roomRepository.verifyRoomIsFree(room.getCdRoom())) {
-            room.setCdStatus(Status.BUSY);
+            room.setCdStatus(Status.FREE);
             this.roomRepository.save(room);
         } else {
-            room.setCdStatus(Status.FREE);
+            room.setCdStatus(Status.BUSY);
             this.roomRepository.save(room);
         }
 

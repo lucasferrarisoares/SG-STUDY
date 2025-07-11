@@ -36942,7 +36942,7 @@ function hWingController($scope, $http, $location) {
         if ($scope.newHwing.cdSpecialty && $scope.newHwing.cdHospital) {
             $http.post('http://localhost:8080/hwings', $scope.newHwing)
                 .then(function () {
-                $scope.newHwing = { cdSpecialty: '', cdHospital: '' };
+                $scope.newHwing = { cdSpecialty: '', cdHospital: '', nuRoom: '', nuBed: '' };
                 $scope.listhWing();
             });
         }
@@ -37184,7 +37184,7 @@ function PatientLogController($scope, $http, $routeParams, $location) {
         }
     };
     $scope.voltar = function () {
-        $location.path('/patients/' + $routeParams.id + '/internar');
+        $location.path('/patient/' + $routeParams.id + '/internar');
     };
     $scope.listLogs();
 }

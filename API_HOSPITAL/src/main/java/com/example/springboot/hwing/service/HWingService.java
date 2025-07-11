@@ -51,9 +51,11 @@ public class HWingService {
         hwing.setDeSpecialty(Specialty.fromcdSpecialty(hwingDTO.cdSpecialty()));
         hwing.setNuRoom(hwingDTO.nuRoom());
 
+        HWingModel hWingModel = this.hwingRepository.save(hwing);
         //Função que cria os quartos ligados a está ala
-        this.generateRoom(hwing, hwingDTO.nuBed());
-        return this.hwingRepository.save(hwing);
+
+        this.generateRoom(hWingModel, hwingDTO.nuBed());
+        return hWingModel;
     }
 
     //Salva uma ala

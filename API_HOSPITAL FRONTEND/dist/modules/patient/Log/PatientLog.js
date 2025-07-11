@@ -31,7 +31,7 @@ function PatientLogController($scope, $http, $routeParams, $location) {
         }
     };
     $scope.voltar = function () {
-        $location.path('/patients/' + $routeParams.id + '/internar');
+        $location.path('/patient/' + $routeParams.id + '/internar');
     };
     $scope.listLogs();
 }

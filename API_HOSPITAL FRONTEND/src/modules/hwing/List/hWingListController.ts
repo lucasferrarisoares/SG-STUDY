@@ -15,7 +15,7 @@ export default function hWingController($scope: any, $http: any, $location: any)
   if ($scope.newHwing.cdSpecialty && $scope.newHwing.cdHospital) {
     $http.post('http://localhost:8080/hwings', $scope.newHwing)
       .then(function() {
-        $scope.newHwing = { cdSpecialty: '', cdHospital: '' };
+        $scope.newHwing = { cdSpecialty: '', cdHospital: '', nuRoom: '', nuBed: '' };
         $scope.listhWing();
       });
   }

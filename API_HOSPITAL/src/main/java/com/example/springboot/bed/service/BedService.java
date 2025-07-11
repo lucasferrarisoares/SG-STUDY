@@ -31,7 +31,7 @@ public class BedService {
     //Lista todas as camas
     @Transactional(readOnly = true)
     public List<BedModel> listAll() {
-        return this.bedRepository.findAll();
+        return this.bedRepository.findAllFiltered();
     }
 
     //Salva camas.

@@ -24,18 +24,18 @@ export default function PatientLogController($scope: any, $http: any, $routePara
     if ($scope.hasNextPage) {
         $scope.currentPage++;
         $scope.listLogs();
-    }
+        }
     };
 
     $scope.previousPage = function () {
     if ($scope.currentPage > 0) {
         $scope.currentPage--;
         $scope.listLogs();
-    }
+        }
     };
 
     $scope.voltar = function() {
-        $location.path('/patients/' + $routeParams.id + '/internar');
+        $location.path('/patient/' + $routeParams.id + '/internar');
     };
 
     $scope.listLogs();

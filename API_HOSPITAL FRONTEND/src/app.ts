@@ -1,6 +1,5 @@
 import * as angular from 'angular';
 
-
 import HospitalListController from './modules/hospital/List/HospitalListController';
 import HospitalController from './modules/hospital/Edit/HospitalController';
 import PatientListController from './modules/patient/List/PatientListController';
