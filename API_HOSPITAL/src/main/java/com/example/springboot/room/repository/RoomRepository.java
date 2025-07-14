@@ -16,9 +16,10 @@ public interface RoomRepository extends JpaRepository<RoomModel, Long> {
             value ="select  " +
                     "R.cd_room as cdRoom,   " +
                     "R.de_code as deCode,    " +
-                    "H.de_specialty as cdSpecialty     " +
+                    "H.de_specialty as cdSpecialty,    " +
+                    "R.CD_HWING as cdHWing      " +
                     "from ceh_room R    " +
-                    "join ceh_hwing H on R.cd_hwing = H.cd_hwing        " +
+                    "join ceh_hwing H on R.CD_HWING = H.CD_HWING        " +
                     "where R.cd_status = 0")
     List<RoomProjection> listFreeRoom();
 

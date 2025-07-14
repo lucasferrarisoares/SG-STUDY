@@ -31,7 +31,8 @@
         <h3>Quartos Livres:</h3>
         <ul>
             <li ng-repeat="room in freeRooms">
-                Código: {{ room.deCode }} 
+                Código: {{ room.deCode }}
+                Ala: {{ room.cdHWing }}
                 <button ng-click="editRoom(room.cdRoom)">Editar</button>
                 <button ng-click="removeRoom(room.cdRoom)">Remover</button>
             </li>

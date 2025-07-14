@@ -12,13 +12,13 @@ export default function hWingController($scope: any, $http: any, $location: any)
   };
 
   $scope.addhWing = function () {
-  if ($scope.newHwing.cdSpecialty && $scope.newHwing.cdHospital) {
-    $http.post('http://localhost:8080/hwings', $scope.newHwing)
-      .then(function() {
-        $scope.newHwing = { cdSpecialty: '', cdHospital: '', nuRoom: '', nuBed: '' };
-        $scope.listhWing();
-      });
-  }
+    if ($scope.newHwing.cdSpecialty && $scope.newHwing.cdHospital) {
+      $http.post('http://localhost:8080/hwings', $scope.newHwing)
+        .then(function() {
+          $scope.newHwing = { cdSpecialty: '', cdHospital: '', nuRoom: '', nuBed: '' };
+          $scope.listhWing();
+        });
+    }
   };
 
   $scope.removehWing = function(cdHWing: number) {
