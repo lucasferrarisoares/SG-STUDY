@@ -4,4 +4,5 @@ public interface RoomProjection {
     Long getCdRoom();
     String getDeCode();
     Integer getCdSpecialty();
+    Long getCdGetCdHWing();
 }

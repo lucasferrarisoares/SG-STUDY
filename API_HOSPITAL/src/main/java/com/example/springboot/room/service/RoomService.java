@@ -109,7 +109,7 @@ public class RoomService {
         List<RoomProjection> projections = this.roomRepository.listFreeRoom();
 
         return projections.stream()
-                .map(projection -> new RoomSpecialtyDTO(projection.getCdRoom(), projection.getDeCode(), Specialty.fromcdSpecialty(projection.getCdSpecialty())))
+                .map(projection -> new RoomSpecialtyDTO(projection.getCdRoom(), projection.getDeCode(), Specialty.fromcdSpecialty(projection.getCdSpecialty()), projection.getCdGetCdHWing()))
                 .collect(Collectors.toList());
     }
 }
