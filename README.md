@@ -1,2 +1,2 @@
-# SG-STUDY
-Projects developed during the study period during the internship at SG SISTEMAS -MARINGÁ PARANÁ BR
+# HOSPITAL-API
+Projects developed to pratice Java and TypeScript
